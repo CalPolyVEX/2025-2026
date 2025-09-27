@@ -5,7 +5,7 @@ compile_commands.json
 .js
 .html
 .css
-.vscode
 .ipynb
 .venv
 tools
+.DS_Store
