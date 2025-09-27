@@ -122,7 +122,7 @@ bool auto_started = false;
 
 void pre_auton() {
   // Initializing Robot Configuration. DO NOT REMOVE!
-  vexcodeInit();
+  
   default_constants();
 
   while(!auto_started){
@@ -161,7 +161,7 @@ void pre_auton() {
     }
     if(Brain.Screen.pressing()){
       while(Brain.Screen.pressing()) {}
-      current_auton_selection ++;
+      current_auton_selection++;
     } else if (current_auton_selection == 8){
       current_auton_selection = 0;
     }
@@ -245,6 +245,7 @@ void usercontrol(void) {
 //
 int main() {
   wait(200, msec);
+  vexcodeInit();
 
   while (1){
     Brain.Screen.clearScreen();
