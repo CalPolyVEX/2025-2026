@@ -28,7 +28,12 @@ all: prebuild $(BUILD)/$(PROJECT).bin
 
 
 prebuild:
-	@echo "starting build"
+	@echo "starting build for $(ROBOT) robot."
+	
+
+green:
+	$(eval ROBOT := green)
+	@echo "Robot target is set to $(ROBOT)."
 
 # include build rules
 include vex/mkrules.mk

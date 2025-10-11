@@ -1,3 +1,5 @@
+#robot port configuration 
+
 color = "green"
 
 # these are test vals
@@ -20,7 +22,6 @@ new_key = "new_value"
     pin = 'c'
 
 
-
 [motors] # table of all motors 
 [motors.L1] 
     port = 20
@@ -34,4 +35,20 @@ new_key = "new_value"
 [motors.L4]
     port = 17
     rev = true
+[motors.R1]
+    port = 16
+    rev = false
+[motors.R2]
+    port = 15
+    rev = true
+[motors.R3]
+    port = 14
+    rev = false
+[motors.R4]
+    port = 13
+    rev = true
 
+
+[motorGroups]
+    left = ["L1", "L2", "L3", "L4"]
+    right = ["R1", "R2", "R3", "R4"]

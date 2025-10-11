@@ -2,6 +2,8 @@
 
 from pathlib import Path
 
+from settings_vex import change_name
+
 import tomlkit
 
 p = Path("cfg/green.toml")
@@ -15,12 +17,12 @@ with open(p, "r") as f:
 
 #print(data)
 
-def translate_c(data: dict):
+def translate(data: dict):
     s = ""
     for key, val in data["motors"].items():
         s += f"vex::motor {key} = vex::motor(PORT{val["port"]}, {val["rev"]});\n"
 
-    s += "\n"
+    #s += "\n"
 
     temp_list_ports = []
 
@@ -38,13 +40,21 @@ def translate_c(data: dict):
             temp_list_ports.append(port)
         s += f"vex::encoder {key} = vex::encoder(threeWirePort{port}.{val["pin"]});\n"
 
-    print(s)
-        
+    s += '\n'
+    for key, val in data["motorGroups"].items():
+        s += f"vex::motorgroup {key} = vex::motorgroup({', '.join(val)});\n"
 
+    print(s)
+    return s
+        
+    
 # Writing to a TOML file
 data["new_key"] = "new_value"
 
-translate_c(data)
+s = translate(data)
 
-with open(p, "w") as f:
-    f.write(tomlkit.dumps(data))
+change_name(f"CPSLO - {data["color"].upper()}")
+
+
+if __name__ == "__main__":
+    pass
