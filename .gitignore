@@ -6,5 +6,5 @@ compile_commands.json
 .css
 .ipynb
 .venv
-tools
 .DS_Store
+lua
