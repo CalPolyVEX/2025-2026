@@ -1,0 +1,37 @@
+color = "green"
+
+# these are test vals
+key = "val"
+new_key = "new_value"
+
+
+[pneumatics]
+[pneumatics.lowerGate]
+    port = 22
+    pin = 'a'
+
+
+[encoders]
+[encoders.hori]
+    port = 22
+    pin = 'a'
+[encoders.vert]
+    port = 22
+    pin = 'c'
+
+
+
+[motors] # table of all motors 
+[motors.L1] 
+    port = 20
+    rev = false
+[motors.L2]
+    port = 19
+    rev = true
+[motors.L3]
+    port = 18
+    rev = false
+[motors.L4]
+    port = 17
+    rev = true
+
