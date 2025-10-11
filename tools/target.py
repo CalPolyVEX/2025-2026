@@ -15,34 +15,57 @@ with open(p, "r") as f:
 # Accessing data
 #print(data["key"])  # Access TOML keys like a dictionary
 
+def get_threewire_pin(port:int, pin:str):
+    return f"threeWirePort{port}.{str(pin).upper()}"
+
 #print(data)
+
+def get_threewire_dev(port:int):
+    return f"\nvex::triport threeWirePort{port} = vex::triport(PORT{port});\n"
+
 
 def translate(data: dict):
     s = ""
-    for key, val in data["motors"].items():
-        s += f"vex::motor {key} = vex::motor(PORT{val["port"]}, {val["rev"]});\n"
-
-    #s += "\n"
 
     temp_list_ports = []
 
     for key, val in data["pneumatics"].items():
         port = val["port"]
         if (port not in temp_list_ports):
-            s += f"\nvex::triport threeWirePort{port} = vex::triport(PORT{port});\n"
+            s += get_threewire_dev(port)
             temp_list_ports.append(port)
-        s += f"vex::pneumatics {key} = vex::pneumatics(threeWirePort{port}.{val["pin"]});\n"
+        s += f"vex::pneumatics {key} = vex::pneumatics({get_threewire_pin(port, val["pin"])});\n"
 
     for key, val in data["encoders"].items():
         port = val["port"]
         if (port not in temp_list_ports):
-            s += f"\nvex::triport threeWirePort{port} = vex::triport(PORT{port});\n"
+            s += get_threewire_dev(port)
             temp_list_ports.append(port)
-        s += f"vex::encoder {key} = vex::encoder(threeWirePort{port}.{val["pin"]});\n"
+        s += f"vex::encoder {key} = vex::encoder({get_threewire_pin(port, val["pin"])});\n"
 
     s += '\n'
+
     for key, val in data["motorGroups"].items():
+        
+        try :
+            motor = data["motorGroups"][key]
+            s += f"vex::motor {key} = vex::motor(PORT{motor["port"]}, {str(motor["rev"]).lower()});\n"
+            print(motor)
+
+            continue
+            pass
+        except Exception:
+            pass
+        
+        
+        for motor, motor_data in data["motorGroups"][key].items():
+            s += f"vex::motor {motor} = vex::motor(PORT{motor_data["port"]}, {str(motor_data["rev"]).lower()});\n"
+            #print(motor, motor_data)
+            #s += f"vex::motor {motor} = vex::motor(PORT{motor_data["port"]}, {motor_data["rev"]});\n"
+
+        
         s += f"vex::motorgroup {key} = vex::motorgroup({', '.join(val)});\n"
+        s += '\n'
 
     print(s)
     return s
