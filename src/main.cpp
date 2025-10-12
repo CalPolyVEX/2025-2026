@@ -1,5 +1,5 @@
 #include "vex.h"
-
+//#include "devices.cpp"
 using namespace vex;
 competition Competition;
 
@@ -25,7 +25,7 @@ competition Competition;
 
 triport ThreeWire = triport(PORT22);
 encoder Encoder(ThreeWire.A);
-
+vex::optical o = vex::optical(PORT10);
 
 Drive chassis(
 

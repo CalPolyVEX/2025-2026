@@ -6,19 +6,17 @@ from settings_vex import change_name
 
 import tomlkit
 
+import argparse
+
 p = Path("cfg/green.toml")
 
 # Reading a TOML file
 with open(p, "r") as f:
     data = tomlkit.parse(f.read())
 
-# Accessing data
-#print(data["key"])  # Access TOML keys like a dictionary
 
 def get_threewire_pin(port:int, pin:str):
     return f"threeWirePort{port}.{str(pin).upper()}"
-
-#print(data)
 
 def get_threewire_dev(port:int):
     return f"\nvex::triport threeWirePort{port} = vex::triport(PORT{port});\n"
@@ -50,7 +48,7 @@ def translate(data: dict):
         try :
             motor = data["motorGroups"][key]
             s += f"vex::motor {key} = vex::motor(PORT{motor["port"]}, {str(motor["rev"]).lower()});\n"
-            print(motor)
+            #print(motor)
 
             continue
             pass
@@ -64,20 +62,59 @@ def translate(data: dict):
             #s += f"vex::motor {motor} = vex::motor(PORT{motor_data["port"]}, {motor_data["rev"]});\n"
 
         
-        s += f"vex::motorgroup {key} = vex::motorgroup({', '.join(val)});\n"
-        s += '\n'
 
-    print(s)
+        s += f"vex::motor_group {key} = vex::motor_group({', '.join(val)});\n"
+    s += '\n'
+
+    s += device_template("optical")
+    s += '\n'
+    s += device_template("distance")
+    s += '\n'
+
+
+    #print(s)
     return s
         
     
-# Writing to a TOML file
-data["new_key"] = "new_value"
+def device_template(thing):
+    s = ""
+    for k, v in data[f"{thing}s"].items():
+        s += f"vex::{thing} {k} = vex::{thing}(PORT{v["port"]});\n"
+    return s
 
-s = translate(data)
+# # Writing to a TOML file
+# data["new_key"] = "new_value"
 
-change_name(f"CPSLO - {data["color"].upper()}")
+s = "#include \"vex.h\"\n"
+s += "\n"
+
+s += translate(data)
+
+change_name(f"CPSLO-{data["color"].upper()}")
 
 
 if __name__ == "__main__":
-    pass
+
+    parser = argparse.ArgumentParser(description="Generate VEX C++ code from TOML config.")
+    parser.add_argument("output_file", type=str, help="Path to output file")
+    args = parser.parse_args()
+
+    with open(args.output_file, "w") as out_f:
+        out_f.write(s)
+    
+    with open(args.output_file, "r") as out_f:
+        lines = out_f.readlines()
+
+    result = ""
+    for line in lines:
+        if result == "":
+            result = "#include \"vex.h\"\n\n"
+            continue
+        words = line.strip().split()
+        if len(words) >= 2:
+            result += f"extern {words[0]} {words[1]};\n"
+
+    header_file = args.output_file.replace(".cpp", ".h").replace("src", "include")
+    with open(header_file, "w") as header_f:
+        header_f.write(result)
+    

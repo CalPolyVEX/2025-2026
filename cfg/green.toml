@@ -10,7 +10,10 @@ new_key = "new_value"
 [pneumatics]
 [pneumatics.lowerGate]
     port = 22
-    pin = 'a'
+    pin = 'h'
+[pneumatics.matchLoad]
+    port = 22
+    pin = 'g'
 
 
 [encoders]
@@ -20,9 +23,6 @@ new_key = "new_value"
 [encoders.vert]
     port = 22
     pin = 'c'
-
-
-
 
 
 [motorGroups]
@@ -52,7 +52,17 @@ new_key = "new_value"
         [motorGroups.right.R4]
             port = 13
             rev = true
-            
+
     [motorGroups.conveyor]
         port = 11
         rev = false
+
+
+[opticals]
+    [opticals.frontOpti]
+        port = 8
+
+
+[distances]
+    [distances.leftDist]
+        port = 2

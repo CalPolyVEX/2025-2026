@@ -28,12 +28,9 @@ all: prebuild $(BUILD)/$(PROJECT).bin
 
 
 prebuild:
-	@echo "starting build for $(ROBOT) robot."
-	
+	@echo "starting build."
+	python3 tools/target.py src/devices.cpp
 
-green:
-	$(eval ROBOT := green)
-	@echo "Robot target is set to $(ROBOT)."
 
 # include build rules
 include vex/mkrules.mk

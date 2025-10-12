@@ -8,3 +8,4 @@ compile_commands.json
 .venv
 .DS_Store
 lua
+setup.sh
