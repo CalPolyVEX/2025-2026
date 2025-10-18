@@ -1,10 +1,10 @@
 #robot port configuration 
 
-color = "green"
+color = "gold"
 
-hex_primary = 0x154734
+hex_primary = 0xC69214
 hex_secondary = 0x2a2b2c
-hex_tertiary = 0xC69214
+hex_tertiary = 0x154734
 hex_blue = 0x4EACEC
 hex_red = 0xe63242
 

@@ -255,7 +255,7 @@ void usercontrol(void)
 //
 int main()
 {
-    wait(200, msec);
+    wait(200, msec); // triports initializing
     vexcodeInit();
 
     while (1)

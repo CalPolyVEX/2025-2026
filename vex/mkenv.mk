@@ -51,6 +51,8 @@ else
 BUILD_VERBOSE ?= $(VERBOSE)
 endif
 
+#BUILD_VERBOSE=1
+
 # use verbose flag
 ifeq ($(BUILD_VERBOSE),0)
 Q = @
@@ -108,3 +110,4 @@ LIBS =  --start-group -lv5rt -lstdc++ -lc -lm -lgcc --end-group
 INC += $(addprefix -I, ${INC_F})
 INC += -I"$(VEX_SDK_PATH)/$(PLATFORM)/include"
 INC += ${TOOL_INC}
+INC += -I"$(VEX_SDK_PATH)/$(PLATFORM)/include"

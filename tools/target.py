@@ -1,18 +1,59 @@
-#!/usr/bin/python3.10
 
 from pathlib import Path
 
 from settings_vex import change_name
 
 import tomlkit
-
 import argparse
+import os
+from get_vexcom import get_vexcom_path
 
-p = Path("cfg/green.toml")
+import subprocess
+import json
 
+color = "green"
+
+vexcom_path = get_vexcom_path()
+# Run the vexcom command with --json flag
+try:
+    vexcom_executable = os.path.join(vexcom_path, "vexcom")
+    if not os.path.isfile(vexcom_executable):
+        print(f"Error: vexcom executable not found at {vexcom_executable}")
+        exit(1)
+
+    # Execute the command and capture output
+    result = subprocess.run([vexcom_executable, "--json"], capture_output=True, text=True, check=True)
+
+    # Parse the JSON output
+    try:
+        json_output = json.loads(result.stdout)
+        #print(json.dumps(json_output, indent=2))  # Pretty-print the JSON
+    except json.JSONDecodeError as e:
+        print(f"Error: Failed to parse JSON output: {e}")
+        print(f"Raw output: {result.stdout}")
+
+except subprocess.CalledProcessError as e:
+    print(f"Error: Failed to run vexcom: {e}")
+    print(f"Error output: {e.stderr}")
+except Exception as e:
+    print(f"Unexpected error: {e}")
+
+color = json_output["v5"]["brain"]["name"]
+
+p = Path(f"cfg/{color}.toml")
 # Reading a TOML file
 with open(p, "r") as f:
     data = tomlkit.parse(f.read())
+
+name = f"FALL-{data["color"].upper()}"
+
+
+print(f"\n-----CONFIGURING {color.upper()} ROBOT-----\n")
+
+import subprocess
+import json
+
+
 
 
 def get_threewire_pin(port:int, pin:str):
@@ -90,13 +131,13 @@ s += "\n"
 
 s += translate(data)
 
-change_name(f"CPSLO-{data["color"].upper()}")
+change_name(name)
 
 
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description="Generate VEX C++ code from TOML config.")
-    parser.add_argument("output_file", type=str, help="Path to output file")
+    parser.add_argument("output_file", type=str, help="Path to output file", default="src/devices.cpp")
     args = parser.parse_args()
 
     with open(args.output_file, "w") as out_f:
@@ -118,3 +159,12 @@ if __name__ == "__main__":
     with open(header_file, "w") as header_f:
         header_f.write(result)
     
+
+    with open("include/colors.h", "w") as color_h:
+        lines = f"""#define PRIMARY_COLOR {hex(data["hex_primary"])}
+#define SECONDARY_COLOR {hex(data["hex_secondary"])}
+#define TERTIARY_COLOR {hex(data["hex_tertiary"])}
+#define BLUE_COLOR {hex(data["hex_blue"])}
+#define RED_COLOR {hex(data["hex_red"])}
+"""
+        color_h.write(lines)

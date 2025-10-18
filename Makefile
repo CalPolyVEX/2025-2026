@@ -24,12 +24,18 @@ SRC_A  = makefile
 INC_F  = include
 
 # build targets
-all: prebuild $(BUILD)/$(PROJECT).bin
-
+all: 
+	
+	@make prebuild 
+	@make $(BUILD)/$(PROJECT).bin
+	@echo "-----------------------ignore the build filename ext.^^"
+	
 
 prebuild:
-	@echo "starting build."
-	python3 tools/target.py src/devices.cpp
+	
+	./.venv/bin/python3 tools/target.py src/devices.cpp
+
+
 
 
 # include build rules
