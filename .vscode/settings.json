@@ -4,5 +4,15 @@
 	],
 	"files.associations": {
 		"algorithm": "cpp"
-	}
+	},
+	"cSpell.ignoreWords": [
+		"Auton",
+		"autons",
+		"configurer",
+		"holo",
+		"omnis",
+		"preauton",
+		"starti",
+		"vexcode"
+	]
 }

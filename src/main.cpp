@@ -24,7 +24,7 @@ competition Competition;
 /*---------------------------------------------------------------------------*/
 
 triport ThreeWire = triport(PORT22);
-encoder Encoder(ThreeWire.A);
+FancyEncoder Encoder(ThreeWire.A);
 vex::optical o = vex::optical(PORT10);
 
 Drive chassis(
@@ -261,7 +261,7 @@ int main()
     while (1)
     {
         Brain.Screen.clearScreen();
-        Brain.Screen.printAt(20, 40, "encoder pos: %lf", Encoder.position(vex::rotationUnits::deg) * (90.0 / 2048.0));
+        Brain.Screen.printAt(20, 40, "encoder pos: %lf", Encoder.position(vex::rotationUnits::deg));
         wait(100, msec);
     }
 
