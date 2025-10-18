@@ -1,6 +1,6 @@
 #include "vex.h"
 //#include "devices.cpp"
-using namespace vex;
+//using namespace vex;
 competition Competition;
 
 /*---------------------------------------------------------------------------*/
@@ -23,8 +23,8 @@ competition Competition;
 /*  already have configured your motors.                                     */
 /*---------------------------------------------------------------------------*/
 
-triport ThreeWire = triport(PORT22);
-encoder Encoder(ThreeWire.A);
+vex::triport ThreeWire = vex::triport(PORT22);
+vex::encoder Encoder(ThreeWire.A);
 vex::optical o = vex::optical(PORT10);
 
 Drive chassis(
@@ -172,7 +172,7 @@ void pre_auton()
         {
             current_auton_selection = 0;
         }
-        task::sleep(10);
+        vex::task::sleep(10);
     }
 }
 
@@ -255,14 +255,14 @@ void usercontrol(void)
 //
 int main()
 {
-    wait(200, msec); // triports initializing
+    vex::wait(200, msec); // triports initializing
     vexcodeInit();
 
     while (1)
     {
         Brain.Screen.clearScreen();
         Brain.Screen.printAt(20, 40, "encoder pos: %lf", Encoder.position(vex::rotationUnits::deg) * (90.0 / 2048.0));
-        wait(100, msec);
+        vex::wait(100, msec);
     }
 
     // Set up callbacks for autonomous and driver control periods.
@@ -275,6 +275,6 @@ int main()
     // Prevent main from exiting with an infinite loop.
     while (true)
     {
-        wait(100, msec);
+        vex::wait(100, msec);
     }
 }

@@ -1,7 +1,7 @@
 import json
 import os
 
-def change_name(name):
+def change_name(name): # puts the name in the project JSON cfg file
     p = os.path.join(os.path.dirname(__file__), "..", ".vscode", "vex_project_settings.json")
     with open(p, 'r') as f:
         data = json.load(f)
