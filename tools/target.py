@@ -4,7 +4,6 @@ from pathlib import Path
 from settings_vex import change_name
 
 import tomlkit
-import argparse
 import os
 from get_vexcom import get_vexcom_path, get_color
 
@@ -13,7 +12,7 @@ import json
 
 color = "green"
 
-#color = get_color()
+color = get_color() or "green"
 
 p = Path(f"cfg/{color}.toml")
 # Reading a TOML file
@@ -33,9 +32,7 @@ from translate_cfg import get_wiremap_string
 
 if __name__ == "__main__":
 
-    parser = argparse.ArgumentParser(description="Generate VEX C++ code from TOML config.")
-    parser.add_argument("vex_sdk_filepath", type=str, help="Path to VEX SDK")
-    args = parser.parse_args()
+    
 
     device_file = "src/devices.cpp"
 

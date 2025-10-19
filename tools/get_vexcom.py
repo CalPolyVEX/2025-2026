@@ -55,11 +55,16 @@ def get_color():
     except subprocess.CalledProcessError as e:
         print(f"Error: Failed to run vexcom: {e}")
         print(f"Error output: {e.stderr}")
-        exit(-1)
+        
     except Exception as e:
         print(f"Unexpected error: {e}")
 
-    return json_output["v5"]["brain"]["name"]
+    try:
+        color = json_output["v5"]["brain"]["name"]
+    except Exception as e:
+        print(f"invalid color, error msg: {e}")
+        color = None
+    return color
 
 
 import subprocess
