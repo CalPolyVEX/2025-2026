@@ -28,30 +28,30 @@ hex_red = 0xe63242
 
 
 [motorGroups]
-    [motorGroups.left]
-        [motorGroups.left.L1] 
+    [motorGroups.leftDrive]
+        [motorGroups.leftDrive.L1] 
             port = 20
             rev = false
-        [motorGroups.left.L2]
+        [motorGroups.leftDrive.L2]
             port = 19
             rev = true
-        [motorGroups.left.L3]
+        [motorGroups.leftDrive.L3]
             port = 18
             rev = false
-        [motorGroups.left.L4]
+        [motorGroups.leftDrive.L4]
             port = 17
             rev = true
-    [motorGroups.right]
-        [motorGroups.right.R1]
+    [motorGroups.rightDrive]
+        [motorGroups.rightDrive.R1]
             port = 16
             rev = false
-        [motorGroups.right.R2]
+        [motorGroups.rightDrive.R2]
             port = 15
             rev = true
-        [motorGroups.right.R3]
+        [motorGroups.rightDrive.R3]
             port = 14
             rev = false
-        [motorGroups.right.R4]
+        [motorGroups.rightDrive.R4]
             port = 13
             rev = true
 
@@ -68,3 +68,7 @@ hex_red = 0xe63242
 [distances]
     [distances.leftDist]
         port = 2
+
+[inertials]
+    [inertials.imu]
+        port = 21

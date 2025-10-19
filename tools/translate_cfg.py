@@ -54,7 +54,8 @@ def translate(data: dict): # translates toml to the VEX API
     s += '\n'
     s += device_template(data, "distance")
     s += '\n'
-
+    s += device_template(data, "inertial")
+    s += '\n'
 
     #print(s)
     return s

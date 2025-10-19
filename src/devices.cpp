@@ -11,15 +11,17 @@ vex::motor L1 = vex::motor(PORT20, false);
 vex::motor L2 = vex::motor(PORT19, true);
 vex::motor L3 = vex::motor(PORT18, false);
 vex::motor L4 = vex::motor(PORT17, true);
-vex::motor_group left = vex::motor_group(L1, L2, L3, L4);
+vex::motor_group leftDrive = vex::motor_group(L1, L2, L3, L4);
 vex::motor R1 = vex::motor(PORT16, false);
 vex::motor R2 = vex::motor(PORT15, true);
 vex::motor R3 = vex::motor(PORT14, false);
 vex::motor R4 = vex::motor(PORT13, true);
-vex::motor_group right = vex::motor_group(R1, R2, R3, R4);
+vex::motor_group rightDrive = vex::motor_group(R1, R2, R3, R4);
 vex::motor conveyor = vex::motor(PORT11, false);
 
 vex::optical frontOpti = vex::optical(PORT8);
 
 vex::distance leftDist = vex::distance(PORT2);
+
+vex::inertial imu = vex::inertial(PORT21);
 
