@@ -2,7 +2,5 @@
 	"recommendations": [
 		"ms-vscode.cpptools",
 		"vexrobotics.vexcode",
-		"tamasfe.even-better-toml",
-		"seunlanlege.action-buttons"
-	]
+		"tamasfe.even-better-toml",	]
 }

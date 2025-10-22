@@ -52,13 +52,14 @@ Drive::Drive(enum ::drive_setup drive_setup, motor_group DriveL, motor_group Dri
                                                                                                                 E_ForwardTracker(ThreeWire.Port[to_port(ForwardTracker_port)]),
                                                                                                                 E_SidewaysTracker(ThreeWire.Port[to_port(SidewaysTracker_port)])
 {
-    if (drive_setup == TANK_ONE_FORWARD_ENCODER || drive_setup == TANK_ONE_FORWARD_ROTATION || drive_setup == ZERO_TRACKER_ODOM)
+    if (drive_setup == TANK_ONE_FORWARD_QUADRATURE || drive_setup == TANK_ONE_FORWARD_ENCODER || drive_setup == TANK_ONE_FORWARD_ROTATION || drive_setup == ZERO_TRACKER_ODOM)
     {
         odom.set_physical_distances(ForwardTracker_center_distance, 0);
     }
     if (drive_setup == TANK_ONE_SIDEWAYS_ENCODER || drive_setup == TANK_ONE_SIDEWAYS_ROTATION ||
         drive_setup == TANK_TWO_ENCODER || drive_setup == TANK_TWO_ROTATION ||
-        drive_setup == HOLONOMIC_TWO_ENCODER || drive_setup == HOLONOMIC_TWO_ROTATION)
+        drive_setup == HOLONOMIC_TWO_ENCODER || drive_setup == HOLONOMIC_TWO_QUADRATURE || drive_setup == HOLONOMIC_TWO_ROTATION ||
+        drive_setup == TANK_TWO_QUADRATURE || drive_setup == TANK_ONE_SIDEWAYS_QUADRATURE )
     {
         odom.set_physical_distances(ForwardTracker_center_distance, SidewaysTracker_center_distance);
     }
@@ -96,6 +97,8 @@ void Drive::set_turn_constants(float turn_max_voltage, float turn_kp, float turn
     this->turn_kd = turn_kd;
     this->turn_starti = turn_starti;
 }
+
+
 
 /**
  * Resets default drive constants.
