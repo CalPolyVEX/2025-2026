@@ -23,6 +23,18 @@ SRC_A  = makefile
 # project header file locations
 INC_F  = include
 
+
+ifeq ($(OS),Windows_NT)
+    SEP := \\
+else
+    SEP := /
+endif
+
+SCRIPT := tools${SEP}target.py
+REQUIREMENTS := tools${SEP}requirements.txt
+VENV_DIR := .venv
+
+
 # build targets
 all: 
 	
@@ -32,27 +44,9 @@ all:
 	
 
 prebuild: setup
-
-	$(VENV_DIR)/bin/python3 $(SCRIPT) 
-
+	@uv run python $(SCRIPT) 
 
 
-# Define virtual environment directory
-VENV_DIR := .venv
-
-# Detect operating system
-ifeq ($(OS),Windows_NT)
-    PYTHON := $(VENV_DIR)\Scripts\python.exe
-    PIP := $(VENV_DIR)\Scripts\pip.exe
-    VENV_ACTIVATE := $(VENV_DIR)\Scripts\activate
-else
-    PYTHON := $(VENV_DIR)/bin/python3
-    PIP := $(VENV_DIR)/bin/pip3
-    VENV_ACTIVATE := . $(VENV_DIR)/bin/activate
-endif
-
-# Python script and argument
-SCRIPT := tools/target.py
 
 
 # Create virtual environment and install dependencies
@@ -62,11 +56,10 @@ setup:
 		echo "nothing" > /dev/null; \
 	else \
 		echo "Setting up virtual environment..."; \
-		python3 -m venv $(VENV_DIR); \
-		. $(VENV_DIR)/bin/activate; \
+		uv venv; \
 		echo "Installing dependencies..."; \
-		$(PIP) install --upgrade pip; \
-		$(PIP) install -r tools/requirements.txt; \
+		uv pip install --upgrade pip; \
+		uv sync; \
 	fi
 
 
