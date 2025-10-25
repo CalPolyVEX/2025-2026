@@ -15,30 +15,34 @@ vexcom_path = os.path.join(vexcode_dirs[0], "resources/tools/vexcom") if vexcode
 system = platform.system()
 if system == "Darwin":
     # macOS
-    vexcom_path = os.path.join(home_dir, "tools/vexcom/osx")
+    vexcom_path = os.path.join(home_dir, "tools/vexcom/osx/vexcom")
 elif system == "Linux":
     # Linux, check architecture
     arch = platform.machine()
     if arch == "x86_64":
-        vexcom_path = os.path.join(home_dir, "tools/vexcom/linux-x64")
+        vexcom_path = os.path.join(home_dir, "tools/vexcom/linux-x64/vexcom")
     elif arch.startswith("arm"):
-        vexcom_path = os.path.join(home_dir, "tools/vexcom/linux-arm32")
+        vexcom_path = os.path.join(home_dir, "tools/vexcom/linux-arm32/vexcom")
     elif arch == "aarch64":
-        vexcom_path = os.path.join(home_dir, "tools/vexcom/linux-arm64")
+        vexcom_path = os.path.join(home_dir, "tools/vexcom/linux-arm64/vexcom")
+elif system == "Windows":
+    vexcom_path = os.path.join(home_dir, "tools/vexcom/win32/vexcom.exe")
 else:
     # Fallback for unsupported systems
     print("Warning: Unsupported OS for vexcom setup")
     vexcom_path = ""
+
 
 def get_vexcom_path():
     return vexcom_path
 
 
 def get_color():
-    vexcom_path = get_vexcom_path()
+    vexcom_executable = get_vexcom_path()
     # Run the vexcom command with --json flag
     try:
-        vexcom_executable = os.path.join(vexcom_path, "vexcom")
+        
+        
         if not os.path.isfile(vexcom_executable):
             print(f"Error: vexcom executable not found at {vexcom_executable}")
             exit(1)
