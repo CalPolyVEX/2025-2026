@@ -54,17 +54,17 @@ def get_color():
             print(f"Error: Failed to parse JSON output: {e}")
             print(f"Raw output: {result.stdout}")
     
-    except subprocess.CalledProcessError as e:
-        print(f"Error: Failed to run vexcom: {e}")
-        print(f"Error output: {e.stderr}")
+    except subprocess.CalledProcessError:
+        print("\n!!! VEX Brain not detected. Building anyway. !!!\n")
+        
         
     except Exception as e:
         print(f"Unexpected error: {e}")
 
     try:
         color = json_output["v5"]["brain"]["name"]
-    except Exception as e:
-        print(f"invalid color, error msg: {e}")
+    except Exception:
+        #print(f"invalid color, error msg: {e}")
         color = None
     return color
 
