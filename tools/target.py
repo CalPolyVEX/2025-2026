@@ -101,4 +101,4 @@ if __name__ == "__main__":
 
     chassis_h_fp = "include/chassis.h"
     with open(chassis_h_fp, "w") as f:
-        f.write('#include "vex.h"\n#include "JAR-Template/drive.h"\n#include "devices.h"\nDrive chassis;')
+        f.write('#include "vex.h"\n#include "JAR-Template/drive.h"\n#include "devices.h"\nextern Drive chassis;')
