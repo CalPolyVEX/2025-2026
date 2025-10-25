@@ -577,7 +577,7 @@ void Drive::drive_to_point(float X_position, float Y_position, float drive_min_v
         drive_output = clamp_min_voltage(drive_output, drive_min_voltage);
 
         drive_with_voltage(left_voltage_scaling(drive_output, heading_output), right_voltage_scaling(drive_output, heading_output));
-        task::sleep(10);
+        vex::task::sleep(10);
     }
 }
 
@@ -672,7 +672,7 @@ void Drive::drive_to_pose(float X_position, float Y_position, float angle, float
         drive_output = clamp_min_voltage(drive_output, drive_min_voltage);
 
         drive_with_voltage(left_voltage_scaling(drive_output, heading_output), right_voltage_scaling(drive_output, heading_output));
-        task::sleep(10);
+        vex::task::sleep(10);
     }
 }
 

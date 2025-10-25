@@ -18,13 +18,7 @@ hex_red = 0xe63242
     pin = 'g'
 
 
-[encoders]
-[encoders.hori]
-    port = 22
-    pin = 'a'
-[encoders.vert]
-    port = 22
-    pin = 'c'
+
 
 
 [motorGroups]
@@ -69,6 +63,30 @@ hex_red = 0xe63242
     [distances.leftDist]
         port = 2
 
-[inertials]
-    [inertials.imu]
-        port = 21
+[encoders]
+    [encoders.test]
+        port = 22
+        pin = "a"
+
+
+[chassis]
+    drive_setup = "ZERO_TRACKER_ODOM"
+    gear_input = 30
+    gear_output = 48
+    wheel_diameter = 3.75
+[chassis.encoders]
+[chassis.encoders.sideways]
+    port = 22
+    pin = "a"
+    diameter = 2.04
+    center_dist = 3.0
+[chassis.encoders.forward]
+    port = 22
+    pin = "c"
+    diameter = 2.04
+    center_dist = 3.0
+[chassis.drivetrain]
+    left = "leftDrive"
+    right = "rightDrive"
+[chassis.inertial]
+    port = 21

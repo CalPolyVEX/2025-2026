@@ -4,11 +4,10 @@ from pathlib import Path
 from settings_vex import change_name
 
 import tomlkit
-import os
-from get_vexcom import get_vexcom_path, get_color
+from get_vexcom import get_color
+from translate_cfg import get_wiremap_string
 
-import subprocess
-import json
+from chassis_generate import get_JAR_Template_chassis_string
 
 color = "green"
 
@@ -25,8 +24,6 @@ change_name(name)
 
 print(f"\n-----CONFIGURING {color.upper()} ROBOT-----\n")
 
-
-from translate_cfg import get_wiremap_string
 
 
 
@@ -66,3 +63,42 @@ if __name__ == "__main__":
 #define RED_COLOR {hex(data["hex_red"])}
 """
         h.write(lines)
+
+
+
+
+    chassis_data = data["chassis"]
+
+    c = get_JAR_Template_chassis_string(
+        left_group_string=chassis_data["drivetrain"]["left"],
+        right_group_string=chassis_data["drivetrain"]["right"],
+        inertial=chassis_data["inertial"]["port"],
+        forward=chassis_data["encoders"]["forward"]["pin"],
+        forward_dia=chassis_data["encoders"]["forward"]["diameter"],
+        forward_ctr_dist=chassis_data["encoders"]["forward"]["center_dist"],
+        sideways=chassis_data["encoders"]["sideways"]["pin"],
+        sideways_dia=chassis_data["encoders"]["sideways"]["diameter"],
+        sideways_ctr_dist=chassis_data["encoders"]["sideways"]["center_dist"],
+        drive_gear_ratio = float(chassis_data["gear_input"]) / float(chassis_data["gear_output"]),
+        drive_setup=chassis_data["drive_setup"],
+        drive_dia=chassis_data["wheel_diameter"]
+
+    )
+    jar = """/*---------------------------------------------------------------------------*/
+/*                             JAR-Template Config                           */
+/*                                                                           */
+/*  Where all the magic happens. Follow the instructions below to input      */
+/*  all the physical constants and values for your robot. You should         */
+/*  already have configured your motors.                                     */
+/*---------------------------------------------------------------------------*/
+
+
+"""
+    chassis_cpp_fp = "src/chassis.cpp"
+    with open(chassis_cpp_fp, "w") as f:
+        f.write(f'#include "vex.h"\n#include "JAR-Template/drive.h"\n#include "devices.h"\n{jar}\n{c}')
+
+
+    chassis_h_fp = "include/chassis.h"
+    with open(chassis_h_fp, "w") as f:
+        f.write('#include "vex.h"\n#include "JAR-Template/drive.h"\n#include "devices.h"\nDrive chassis;')

@@ -137,7 +137,7 @@ int to_port(int port){
  */
 
 float deadband(float input, float width){
-  if (std::fabs(input)<width){
+  if (std::fabs(input) < width){
     return(0);
   }
   return(input);

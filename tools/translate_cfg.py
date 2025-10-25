@@ -1,3 +1,4 @@
+import tomlkit
 def get_threewire_pin(port:int, pin:str): #threewire pin template
     return f"threeWirePort{port}.{str(pin).upper()}"
 
@@ -9,21 +10,24 @@ def translate(data: dict): # translates toml to the VEX API
     s = ""
 
     temp_list_ports = []
-
-    for key, val in data["pneumatics"].items(): #parse pneumatics as pins
-        port = val["port"]
-        if (port not in temp_list_ports):
-            s += get_threewire_dev(port)
-            temp_list_ports.append(port)
-        s += f"vex::pneumatics {key} = vex::pneumatics({get_threewire_pin(port, val["pin"])});\n"
-
-    for key, val in data["encoders"].items(): # parse encoders as pins
-        port = val["port"]
-        if (port not in temp_list_ports):
-            s += get_threewire_dev(port)
-            temp_list_ports.append(port)
-        s += f"vex::encoder {key} = vex::encoder({get_threewire_pin(port, val["pin"])});\n"
-
+    try:
+        for key, val in data["pneumatics"].items(): #parse pneumatics as pins
+            port = val["port"]
+            if (port not in temp_list_ports):
+                s += get_threewire_dev(port)
+                temp_list_ports.append(port)
+            s += f"vex::pneumatics {key} = vex::pneumatics({get_threewire_pin(port, val["pin"])});\n"
+    except tomlkit.exceptions.NonExistentKey:
+        pass
+    try:
+        for key, val in data["encoders"].items(): # parse encoders as pins
+            port = val["port"]
+            if (port not in temp_list_ports):
+                s += get_threewire_dev(port)
+                temp_list_ports.append(port)
+            s += f"vex::encoder {key} = vex::encoder({get_threewire_pin(port, val["pin"])});\n"
+    except tomlkit.exceptions.NonExistentKey:
+        pass
     s += '\n'
 
     for key, val in data["motorGroups"].items():
@@ -35,7 +39,7 @@ def translate(data: dict): # translates toml to the VEX API
 
             continue
             pass
-        except Exception as e: # no big deal if it fails, try parsing the group next
+        except Exception: # no big deal if it fails, try parsing the group next
             #print(e)
             pass
         
@@ -62,10 +66,13 @@ def translate(data: dict): # translates toml to the VEX API
         
     
 def device_template(data, thing):  # generates a vex::namespace object
-    s = ""
-    for k, v in data[f"{thing}s"].items():
-        s += f"vex::{thing} {k} = vex::{thing}(PORT{v["port"]});\n"
-    return s
+    try:
+        s = ""
+        for k, v in data[f"{thing}s"].items():
+            s += f"vex::{thing} {k} = vex::{thing}(PORT{v["port"]});\n"
+        return s
+    except tomlkit.exceptions.NonExistentKey:
+        return ""
 
 # # Writing to a TOML file
 # data["new_key"] = "new_value"

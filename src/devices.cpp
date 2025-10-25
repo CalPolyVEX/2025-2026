@@ -4,8 +4,7 @@
 vex::triport threeWirePort22 = vex::triport(PORT22);
 vex::pneumatics lowerGate = vex::pneumatics(threeWirePort22.H);
 vex::pneumatics matchLoad = vex::pneumatics(threeWirePort22.G);
-vex::encoder hori = vex::encoder(threeWirePort22.A);
-vex::encoder vert = vex::encoder(threeWirePort22.C);
+vex::encoder test = vex::encoder(threeWirePort22.A);
 
 vex::motor L1 = vex::motor(PORT20, false);
 vex::motor L2 = vex::motor(PORT19, true);
@@ -23,5 +22,4 @@ vex::optical frontOpti = vex::optical(PORT8);
 
 vex::distance leftDist = vex::distance(PORT2);
 
-vex::inertial imu = vex::inertial(PORT21);
 

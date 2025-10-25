@@ -2,6 +2,8 @@ import os
 import platform
 import glob
 from pathlib import Path
+import subprocess
+import json
 
 # Find the latest VEX Code extension directory dynamically
 home_dir = str(Path.cwd())
@@ -67,8 +69,7 @@ def get_color():
     return color
 
 
-import subprocess
-import json
+
 
 
 if __name__ == "__main__":
