@@ -1,4 +1,6 @@
-#robot port configuration 
+#robot configuration 
+
+driver = "joseph"
 
 color = "green"
 

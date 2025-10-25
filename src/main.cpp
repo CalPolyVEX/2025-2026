@@ -17,7 +17,6 @@ competition Competition;
 /*---------------------------------------------------------------------------*/
 
 
-
 int current_auton_selection = 0;
 bool auto_started = false;
 
@@ -184,6 +183,7 @@ int main()
     // Run the pre-autonomous function.
     pre_auton();
 
+    
     // Prevent main from exiting with an infinite loop.
     while (true)
     {
