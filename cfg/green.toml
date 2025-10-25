@@ -73,8 +73,8 @@ hex_red = 0xe63242
 
 [chassis]
     drive_setup = "ZERO_TRACKER_ODOM"
-    gear_input = 30
-    gear_output = 48
+    gear_input = 1
+    gear_output = 4.5
     wheel_diameter = 3.75
 [chassis.encoders]
 [chassis.encoders.sideways]
