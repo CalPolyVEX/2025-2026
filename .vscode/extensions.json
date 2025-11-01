@@ -3,7 +3,7 @@
 		"ms-vscode.cpptools",
 		"vexrobotics.vexcode",
 		"redhat.vscode-yaml",
-		"charliermarsh.ruff", 
+		"charliermarsh.ruff",
 		"detachhead.basedpyright"
 	]
 }
