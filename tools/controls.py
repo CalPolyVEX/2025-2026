@@ -1,38 +1,54 @@
-import yaml
+import re
+from pathlib import Path
+
+def change_driver(driver: str) -> None:
+    """
+    Dynamically patch the DRIVER_NAME macro in include/controls.h
+    so that the identifier becomes driver.upper().
+    The macro's value (everything after the identifier) is preserved.
+    """
+    path = Path("include/controls.h")
+    if not path.is_file():
+        raise FileNotFoundError(f"{path} not found")
+
+    # Fixed regex: properly closed groups and safe whitespace handling
+    define_pat = re.compile(
+        r"""
+        ^                       # Start of line
+        (\s*)                   # Capture leading whitespace (group 1)
+        \#                      # Literal '#'
+        \s*                     # Optional whitespace
+        define                  # 'define'
+        \s+                     # Required whitespace
+        (\w+)                   # Macro name to replace (group 2)
+        (.*)                    # Rest of the line: the value (group 3)
+        $                       # End of line
+        """,
+        re.VERBOSE
+    )
+
+    new_driver = driver.upper()
+    content = path.read_text(encoding="utf-8")
+    lines = content.splitlines(keepends=True)
+
+    modified = False
+    for i, line in enumerate(lines):
+        m = define_pat.match(line)
+        if m:
+            leading_ws, old_id, value = m.groups()
+            if old_id != new_driver:
+                # Reconstruct line: leading_ws + '#define ' + NEW_NAME + value
+                new_line = f"{leading_ws}#define {new_driver}{value}\n"
+                lines[i] = new_line
+                modified = True
+            break  # Only replace the first match
+
+    if modified:
+        path.write_text("".join(lines), encoding="utf-8")
 
 
-def get_map(d: str):
-    with open(f"cfg/{d}.yaml") as f:
-        m = yaml.load(f, yaml.Loader)
-    return m
-
-def get_controls(driver: str):
-    s = """#include "vex.h"\n#include "controls.h"\n\nvoid bind_all(controller c){\n"""
-    d = get_map(driver)
-    for v in d:
-        button = v
-        s += f"    c.Button{button}.pressed({d[v]["onpress"]});\n"
-        s += f"    c.Button{button}.released({d[v]["onrelease"]});\n"
-
-    s += "}"
-    return s
-
-
-def write_controls(driver: str):
-    string = get_controls(driver)
-    with open("src/controls.cpp", "w") as f:
-        _ = f.write(string)
-        f.close()
-    with open("include/controls.h", "w") as f:
-        s = ""
-        m = get_map(driver)
-        for k in m:
-            s += f"extern void {m[k]["onpress"]}();\n"
-            s += f"extern void {m[k]["onrelease"]}();\n"
-        s += "\nvoid bind_all(controller c);\n"
-        _ = f.write(s)
-    return string
-
+# ----------------------------------------------------------------------
+# Example usage
+# ----------------------------------------------------------------------
 if __name__ == "__main__":
-    s = write_controls("joseph")
-    print(s)
+    change_driver("my_new_driver")

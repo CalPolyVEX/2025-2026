@@ -1,4 +1,2 @@
-extern void conveyorEnable();
-extern void conveyorDisable();
-
+#define CHRIS
 void bind_all(controller c);

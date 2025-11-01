@@ -1,7 +1,23 @@
 #include "vex.h"
 #include "controls.h"
 
+#ifdef CHRIS
 void bind_all(controller c){
-    c.ButtonA.pressed(conveyorEnable);
-    c.ButtonA.released(conveyorDisable);
+
 }
+#endif
+
+
+//================================================================================================================
+//
+//================================================================================================================
+
+
+#ifdef JOSEPH
+void bind_all(controller c){
+    
+}
+#endif
+
+#undef CHRIS
+#undef JOSEPH

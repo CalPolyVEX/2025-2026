@@ -4,6 +4,7 @@ from settings_vex import change_name
 
 import yaml
 from get_vexcom import get_color
+from controls import change_driver
 from translate_cfg import get_wiremap_string
 
 from chassis_generate import get_JAR_Template_chassis_string
@@ -87,12 +88,14 @@ if __name__ == "__main__":
 
     chassis_cpp_fp = "src/chassis.cpp"
     with open(chassis_cpp_fp, "w") as f:
-        f.write(
+        _ = f.write(
             f'#include "vex.h"\n#include "JAR-Template/drive.h"\n#include "devices.h"\n{jar}\n{d}\n{c}'
         )
 
     chassis_h_fp = "include/chassis.h"
     with open(chassis_h_fp, "w") as f:
-        f.write(
+        _ = f.write(
             '#include "vex.h"\n#include "JAR-Template/drive.h"\n#include "devices.h"\nextern Drive chassis;'
         )
+
+    change_driver(data["driver"])
