@@ -1,49 +1,43 @@
-
 from pathlib import Path
 
 from settings_vex import change_name
 
-import tomlkit
+import yaml
 from get_vexcom import get_color
 from translate_cfg import get_wiremap_string
 
 from chassis_generate import get_JAR_Template_chassis_string
 
 
-color = get_color() or "green"
+color = get_color() or "gold"
 
-p = Path(f"cfg/{color}.toml")
+p = Path(f"cfg/{color}.yaml")
 # Reading a TOML file
 with open(p, "r") as f:
-    data = tomlkit.parse(f.read())
+    data = yaml.safe_load(f.read())
 
-name = f"FALL-2025-{data["color"].upper()}"
+name = f"FALL-2025-{data['color'].upper()}"
 
 change_name(name)
 
 print(f"\n-----CONFIGURING {color.upper()} ROBOT-----\n")
 
 
-
-
 if __name__ == "__main__":
-
-    
-
     device_file = "src/devices.cpp"
 
     s = get_wiremap_string(data)
- 
+
     with open(device_file, "w") as out_f:
         out_f.write(s)
-    
+
     with open(device_file, "r") as out_f:
         lines = out_f.readlines()
 
     result = ""
     for line in lines:
         if result == "":
-            result = "#include \"vex.h\"\n\n"
+            result = '#include "vex.h"\n\n'
             continue
         words = line.strip().split()
         if len(words) >= 2:
@@ -52,7 +46,7 @@ if __name__ == "__main__":
     header_file = device_file.replace(".cpp", ".h").replace("src", "include")
     with open(header_file, "w") as header_f:
         header_f.write(result)
-    
+
     color_header = "include/colors.h"
     with open(color_header, "w") as h:
         lines = f"""#define PRIMARY_COLOR {hex(data["hex_primary"])}
@@ -60,11 +54,9 @@ if __name__ == "__main__":
 #define TERTIARY_COLOR {hex(data["hex_tertiary"])}
 #define BLUE_COLOR {hex(data["hex_blue"])}
 #define RED_COLOR {hex(data["hex_red"])}
+#define BRAIN_NAME "{data["color"]}"
 """
-        h.write(lines)
-
-
-
+        _ = h.write(lines)
 
     chassis_data = data["chassis"]
 
@@ -78,10 +70,10 @@ if __name__ == "__main__":
         sideways=chassis_data["encoders"]["sideways"]["pin"],
         sideways_dia=chassis_data["encoders"]["sideways"]["diameter"],
         sideways_ctr_dist=chassis_data["encoders"]["sideways"]["center_dist"],
-        drive_gear_ratio = float(chassis_data["gear_input"]) / float(chassis_data["gear_output"]),
+        drive_gear_ratio=float(chassis_data["gear_input"])
+        / float(chassis_data["gear_output"]),
         drive_setup=chassis_data["drive_setup"],
-        drive_dia=chassis_data["wheel_diameter"]
-
+        drive_dia=chassis_data["wheel_diameter"],
     )
     jar = """/*---------------------------------------------------------------------------*/
 /*                             JAR-Template Config                           */
@@ -95,9 +87,12 @@ if __name__ == "__main__":
 
     chassis_cpp_fp = "src/chassis.cpp"
     with open(chassis_cpp_fp, "w") as f:
-        f.write(f'#include "vex.h"\n#include "JAR-Template/drive.h"\n#include "devices.h"\n{jar}\n{d}\n{c}')
-
+        f.write(
+            f'#include "vex.h"\n#include "JAR-Template/drive.h"\n#include "devices.h"\n{jar}\n{d}\n{c}'
+        )
 
     chassis_h_fp = "include/chassis.h"
     with open(chassis_h_fp, "w") as f:
-        f.write('#include "vex.h"\n#include "JAR-Template/drive.h"\n#include "devices.h"\nextern Drive chassis;')
+        f.write(
+            '#include "vex.h"\n#include "JAR-Template/drive.h"\n#include "devices.h"\nextern Drive chassis;'
+        )

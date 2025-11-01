@@ -1,6 +1,7 @@
 #include "vex.h"
 #include "devices.h"
 #include "chassis.h"
+#include <vex_task.h>
 //using namespace vex;
 competition Competition;
 

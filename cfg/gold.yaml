@@ -1,0 +1,83 @@
+# Robot configuration
+driver: chris
+color: gold
+
+hex_primary: 0xC69214
+hex_secondary: 0x2a2b2c
+hex_tertiary: 0x154734
+hex_blue: 0x4EACEC
+hex_red: 0xe63242
+
+pneumatics:
+  lowerGate:
+    port: 22
+    pin: h
+  matchLoad:
+    port: 22
+    pin: g
+
+encoders:
+  test:
+    port: 22
+    pin: a
+
+motorGroups:
+  leftDrive:
+    L1:
+      port: 20
+      rev: false
+    L2:
+      port: 19
+      rev: true
+    L3:
+      port: 18
+      rev: false
+    L4:
+      port: 17
+      rev: true
+  rightDrive:
+    R1:
+      port: 16
+      rev: false
+    R2:
+      port: 15
+      rev: true
+    R3:
+      port: 14
+      rev: false
+    R4:
+      port: 13
+      rev: true
+  conveyor:
+    port: 11
+    rev: false
+
+opticals:
+  frontOpti:
+    port: 8
+
+distances:
+  leftDist:
+    port: 2
+
+chassis:
+  drive_setup: ZERO_TRACKER_ODOM
+  gear_input: 1
+  gear_output: 4.5
+  wheel_diameter: 3.75
+  encoders:
+    sideways:
+      port: 22
+      pin: a
+      diameter: 2.04
+      center_dist: 3.0
+    forward:
+      port: 22
+      pin: c
+      diameter: 2.04
+      center_dist: 3.0
+  drivetrain:
+    left: leftDrive
+    right: rightDrive
+  inertial:
+    port: 21

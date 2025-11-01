@@ -9,7 +9,7 @@ and run:
 
 ```sh
 uv venv
-uv pip install tools/requirements.txt
+uv sync
 ```
 
 Verify that the above worked by running:

@@ -1,4 +1,4 @@
-import tomlkit
+import yaml
 def get_threewire_pin(port:int, pin:str): #threewire pin template
     return f"threeWirePort{port}.{str(pin).upper()}"
 
@@ -17,7 +17,8 @@ def translate(data: dict): # translates toml to the VEX API
                 s += get_threewire_dev(port)
                 temp_list_ports.append(port)
             s += f"vex::pneumatics {key} = vex::pneumatics({get_threewire_pin(port, val["pin"])});\n"
-    except tomlkit.exceptions.NonExistentKey:
+    except Exception as e:
+        print(e)
         pass
     try:
         for key, val in data["encoders"].items(): # parse encoders as pins
@@ -26,7 +27,8 @@ def translate(data: dict): # translates toml to the VEX API
                 s += get_threewire_dev(port)
                 temp_list_ports.append(port)
             s += f"vex::encoder {key} = vex::encoder({get_threewire_pin(port, val["pin"])});\n"
-    except tomlkit.exceptions.NonExistentKey:
+    except Exception as e:
+        print(e)
         pass
     s += '\n'
 
@@ -71,7 +73,8 @@ def device_template(data, thing):  # generates a vex::namespace object
         for k, v in data[f"{thing}s"].items():
             s += f"vex::{thing} {k} = vex::{thing}(PORT{v["port"]});\n"
         return s
-    except tomlkit.exceptions.NonExistentKey:
+    except KeyError:
+        #print(e)
         return ""
 
 # # Writing to a TOML file
