@@ -13,3 +13,5 @@ lua
 tmp/
 
 tools/__pycache__
+
+pico/target
