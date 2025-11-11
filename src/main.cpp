@@ -82,6 +82,7 @@ void pre_auton()
             current_auton_selection = 0;
         }
         vex::task::sleep(10);
+        
     }
 }
 

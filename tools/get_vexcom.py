@@ -80,7 +80,7 @@ if __name__ == "__main__":
     vexcom_path = get_vexcom_path()
     # Run the vexcom command with --json flag
     try:
-        vexcom_executable = os.path.join(vexcom_path, "vexcom")
+        vexcom_executable = vexcom_path
         if not os.path.isfile(vexcom_executable):
             print(f"Error: vexcom executable not found at {vexcom_executable}")
             exit(1)
