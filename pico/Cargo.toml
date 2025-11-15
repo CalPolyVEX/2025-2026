@@ -21,8 +21,8 @@ embassy-usb-logger = "0.5.1"
 
 # cyw43-pio = { version = "0.8.0", features = ["defmt"] }
 
-defmt = "1.0.1"
-defmt-rtt = "1.0.0"
+defmt = "0.3"
+defmt-rtt = "0.4"
 fixed = "1.23.1"
 fixed-macro = "1.2"
 
