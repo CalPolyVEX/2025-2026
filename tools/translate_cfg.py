@@ -47,7 +47,7 @@ def translate(data: dict): # translates toml to the VEX API
         
         
         for motor, motor_data in data["motorGroups"][key].items(): #parse motor groups
-            s += f"vex::motor {motor} = vex::motor(PORT{motor_data["port"]}, {str(motor_data["rev"]).lower()});\n"
+            s += f"vex::motor {motor} = vex::motor(vex::PORT{motor_data["port"]}, {str(motor_data["rev"]).lower()});\n"
             #print(motor, motor_data)
             #s += f"vex::motor {motor} = vex::motor(PORT{motor_data["port"]}, {motor_data["rev"]});\n"
 

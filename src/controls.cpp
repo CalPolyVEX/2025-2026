@@ -2,7 +2,7 @@
 #include "controls.h"
 
 #ifdef CHRIS
-void bind_all(controller c){
+void bind_all(vex::controller c){
 
 }
 #endif
@@ -14,7 +14,7 @@ void bind_all(controller c){
 
 
 #ifdef JOSEPH
-void bind_all(controller c){
+void bind_all(vex::controller c){
     
 }
 #endif
