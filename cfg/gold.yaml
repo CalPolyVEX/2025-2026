@@ -16,7 +16,7 @@ pneumatics:
     port: 22
     pin: g
 
-encoders:
+encoders: # extra encoders (NOT ODOM)
   test:
     port: 22
     pin: a

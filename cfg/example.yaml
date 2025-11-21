@@ -72,7 +72,7 @@ motorGroups:
 
 # table for the optical sensors
 # port is the port the sensor should be on
-opticals:
+opticals: # extra encoders (NOT ODOM)
   frontOpti:
     port: 8
 

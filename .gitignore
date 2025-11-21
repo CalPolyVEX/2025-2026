@@ -9,6 +9,8 @@ compile_commands.json
 .DS_Store
 lua
 #setup.sh
+.vscode/settings.json
+.vscode/c_cpp_properties.json
 
 tmp/
 

@@ -8,56 +8,62 @@ hex_blue: 0x4EACEC
 hex_red: 0xe63242
 
 pneumatics:
-  lowerGate:
+  midGoal:
     port: 22
     pin: "h"
-  matchLoad:
+  loader:
     port: 22
     pin: "g"
+  wing:
+    port: 22
+    pin: "f"
 
 motorGroups:
   leftDrive:
     L1:
       port: 20
-      rev: false
+      rev: true
     L2:
       port: 19
       rev: true
     L3:
       port: 18
-      rev: false
-    L4:
-      port: 17
       rev: true
+    # L4:
+    #   port: 17
+    #   rev: true
   rightDrive:
     R1:
       port: 16
       rev: false
     R2:
       port: 15
-      rev: true
+      rev: false
     R3:
       port: 14
       rev: false
-    R4:
-      port: 13
-      rev: true
-  conveyor:
-    port: 11
+    # R4:
+    #   port: 13
+    #   rev: true
+  intake:
+    port: 16
     rev: false
+  hood:
+    port: 15
+    rev: true
 
 opticals:
   frontOpti:
-    port: 8
+    port: 20
 
-distances:
-  leftDist:
-    port: 2
+# distances:
+#   leftDist:
+#     port: 2
 
-encoders:
-  test:
-    port: 22
-    pin: "a"
+# encoders: # extra encoders (NOT ODOM)
+#   test:
+#     port: 22
+#     pin: "a"
 
 chassis:
   drive_setup: "ZERO_TRACKER_ODOM"

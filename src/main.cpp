@@ -2,6 +2,7 @@
 #include "devices.h"
 #include "chassis.h"
 #include <vex_task.h>
+#include "controls.h"
 //using namespace vex;
 competition Competition;
 
@@ -136,27 +137,13 @@ void autonomous(void)
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
 
-void usercontrol(void)
-{
-    // User control code here, inside the loop
-    while (1)
-    {
+void usercontrol(void) {
+  // User control code here, inside the loop
+    bind_all(controller1);
 
-        // This is the main execution loop for the user control program.
-        // Each time through the loop your program should update motor + servo
-        // values based on feedback from the joysticks.
-
-        // ........................................................................
-        // Insert user code here. This is where you use the joystick values to
-        // update your motors, etc.
-        // ........................................................................
-
-        // Replace this line with chassis.control_tank(); for tank drive
-        // or chassis.control_holonomic(); for holo drive.
-        chassis.control_arcade();
-
-        wait(10, msec); // Sleep the task for a short amount of time to
-                         // prevent wasted resources.
+    while (1){
+        // prevent everthign from exiting with an inf loop
+        vex::wait(100.0, vex::timeUnits::msec);
     }
 }
 
