@@ -7,26 +7,30 @@ import json
 
 # Find the latest VEX Code extension directory dynamically
 home_dir = str(Path.cwd())
-vexcode_pattern = os.path.join(home_dir, ".vscode/extensions/vexrobotics.vexcode-*")
-vexcode_dirs = sorted(glob.glob(vexcode_pattern), key=lambda x: [int(i) for i in os.path.basename(x).split('-')[1].split('.')], reverse=True)
-vexcom_path = os.path.join(vexcode_dirs[0], "resources/tools/vexcom") if vexcode_dirs else ""
+home_dir = os.path.expanduser("~")
+pattern = os.path.join(home_dir, ".vscode", "extensions", "vexrobotics.vexcode-*")
+matches = glob.glob(pattern)
+vexcom_folder_path = os.path.join(matches[0], "resources/tools/vexcom")
+
+
 
 # Dynamically set VEXCOM_PATH based on OS and architecture
+
 system = platform.system()
 if system == "Darwin":
     # macOS
-    vexcom_path = os.path.join(home_dir, "tools/vexcom/osx/vexcom")
+    vexcom_path = os.path.join(home_dir, f"{vexcom_folder_path}/osx/vexcom")
 elif system == "Linux":
     # Linux, check architecture
     arch = platform.machine()
     if arch == "x86_64":
-        vexcom_path = os.path.join(home_dir, "tools/vexcom/linux-x64/vexcom")
+        vexcom_path = os.path.join(home_dir, f"{vexcom_folder_path}/linux-x64/vexcom")
     elif arch.startswith("arm"):
-        vexcom_path = os.path.join(home_dir, "tools/vexcom/linux-arm32/vexcom")
+        vexcom_path = os.path.join(home_dir, f"{vexcom_folder_path}/linux-arm32/vexcom")
     elif arch == "aarch64":
-        vexcom_path = os.path.join(home_dir, "tools/vexcom/linux-arm64/vexcom")
+        vexcom_path = os.path.join(home_dir, f"{vexcom_folder_path}/linux-arm64/vexcom")
 elif system == "Windows":
-    vexcom_path = os.path.join(home_dir, "tools/vexcom/win32/vexcom.exe")
+    vexcom_path = os.path.join(home_dir, f"{vexcom_folder_path}/win32/vexcom.exe")
 else:
     # Fallback for unsupported systems
     print("Warning: Unsupported OS for vexcom setup")
