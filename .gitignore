@@ -15,5 +15,6 @@ lua
 tmp/
 
 tools/__pycache__
+tools/vexcom
 
 pico/target

@@ -5,7 +5,6 @@ vex::triport threeWirePort22 = vex::triport(PORT22);
 vex::pneumatics midGoal = vex::pneumatics(threeWirePort22.H);
 vex::pneumatics loader = vex::pneumatics(threeWirePort22.G);
 vex::pneumatics wing = vex::pneumatics(threeWirePort22.F);
-vex::encoder test = vex::encoder(threeWirePort22.A);
 
 vex::motor L1 = vex::motor(PORT20, true);
 vex::motor L2 = vex::motor(PORT19, true);
@@ -20,6 +19,5 @@ vex::motor hood = vex::motor(PORT15, true);
 
 vex::optical frontOpti = vex::optical(PORT20);
 
-vex::distance leftDist = vex::distance(PORT2);
 
 

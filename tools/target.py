@@ -17,7 +17,7 @@ p = Path(f"cfg/{color}.yaml")
 with open(p, "r") as f:
     data = yaml.safe_load(f.read())
 
-name = f"FALL-2025-{data['color'].upper()}"
+name = f"2026-{data['color'].upper()}"
 
 change_name(name)
 
