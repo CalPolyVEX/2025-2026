@@ -50,7 +50,7 @@ motorGroups:
     port: 3
     rev: false
 
-  hood:
+  lift:
     port: 4
     rev: true
 

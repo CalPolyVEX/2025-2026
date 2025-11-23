@@ -15,5 +15,5 @@ extern vex::motor R3;
 extern vex::motor R4;
 extern vex::motor_group rightDrive;
 extern vex::motor intake;
-extern vex::motor hood;
+extern vex::motor lift;
 extern vex::optical frontOpti;

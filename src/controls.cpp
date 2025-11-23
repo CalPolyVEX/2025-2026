@@ -23,16 +23,16 @@ void bind_all(){
     });
 
     c.ButtonR1.pressed([ ]{
-        hood.spin(vex::fwd, 100/8.3, vex::volt);
+        lift.spin(vex::fwd, 100/8.3, vex::volt);
     });
 
     c.ButtonY.pressed([ ]{
-        hood.spin(vex::fwd, -100/8.3, vex::volt);
+        lift.spin(vex::fwd, -100/8.3, vex::volt);
     });
 
     c.ButtonY.released([ ]{
         if (!c.ButtonR1.pressing()){
-            hood.spin(vex::fwd, 0, vex::volt);
+            lift.spin(vex::fwd, 0, vex::volt);
         }
     });
 
@@ -89,16 +89,16 @@ void bind_all(){
     });
 
     c.ButtonR1.pressed([ ]{
-        hood.spin(vex::fwd, 100/8.3, vex::volt);
+        lift.spin(vex::fwd, 100/8.3, vex::volt);
     });
 
     c.ButtonY.pressed([ ]{
-        hood.spin(vex::fwd, -100/8.3, vex::volt);
+        lift.spin(vex::fwd, -100/8.3, vex::volt);
     });
 
     c.ButtonY.released([ ]{
         if (!c.ButtonR1.pressing()){
-            hood.spin(vex::fwd, 0, vex::volt);
+            lift.spin(vex::fwd, 0, vex::volt);
         }
     });
 

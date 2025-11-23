@@ -17,7 +17,7 @@ vex::motor R3 = vex::motor(PORT18, false);
 vex::motor R4 = vex::motor(PORT17, false);
 vex::motor_group rightDrive = vex::motor_group(R1, R2, R3, R4);
 vex::motor intake = vex::motor(PORT3, false);
-vex::motor hood = vex::motor(PORT4, true);
+vex::motor lift = vex::motor(PORT4, true);
 
 vex::optical frontOpti = vex::optical(PORT20);
 
