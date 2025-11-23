@@ -82,7 +82,7 @@ void pre_auton()
         {
             current_auton_selection = 0;
         }
-        vex::task::sleep(10);
+        
         
     }
 }
@@ -139,11 +139,12 @@ void autonomous(void)
 
 void usercontrol(void) {
   // User control code here, inside the loop
-    bind_all(controller1);
+    
 
     while (1){
-        // prevent everthign from exiting with an inf loop
-        vex::wait(100.0, vex::timeUnits::msec);
+        //printf("driving\n");
+        
+        vex::wait(3, msec);
     }
 }
 
@@ -157,7 +158,7 @@ int main()
     vex::wait(200, msec); // triports initializing
     vexcodeInit();
 
-    
+    bind_all();
     
 
     // Set up callbacks for autonomous and driver control periods.
@@ -171,6 +172,7 @@ int main()
     // Prevent main from exiting with an infinite loop.
     while (true)
     {
+        printf("in main\n");
         vex::wait(100, msec);
     }
 }

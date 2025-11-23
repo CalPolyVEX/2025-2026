@@ -12,7 +12,7 @@ brain  Brain;
 
 //Add your devices below, and don't forget to do the same in robot-config.h:
 
-vex::controller controller1(vex::controllerType::primary);
+
 
 void vexcodeInit( void ) {
   // nothing to initialize

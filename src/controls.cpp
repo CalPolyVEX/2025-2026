@@ -2,67 +2,10 @@
 #include "controls.h"
 #include "devices.h"
 
+vex::controller c(vex::controllerType::primary);
+
 #ifdef CHRIS
-void bind_all(controller c){
-
-        c.ButtonL1.pressed([ ] {
-        
-        intake.spin(vex::fwd, 100/8.3, vex::volt);
-    });
-
-    c.ButtonL2.pressed([ ]{
-        intake.spin(vex::fwd, -100/8.3, vex::volt);
-    });
-
-    c.ButtonL2.released([ ]{
-        if (!controller1.ButtonL1.pressing()){
-            intake.spin(vex::fwd, 0, vex::volt);
-        }
-    });
-
-    c.ButtonR1.pressed([ ]{
-        hood.spin(vex::fwd, 100/8.3, vex::volt);
-    });
-
-    c.ButtonY.pressed([ ]{
-        hood.spin(vex::fwd, -100/8.3, vex::volt);
-    });
-
-    c.ButtonY.released([ ]{
-        if (!controller1.ButtonR1.pressing()){
-            hood.spin(vex::fwd, 0, vex::volt);
-        }
-    });
-
-    c.ButtonX.pressed([ ]{
-        midGoal.set(!midGoal.value());
-    });
-    c.ButtonA.pressed([ ]{
-        loader.set(!loader.value());
-    });
-    c.ButtonR2.pressed([ ]{
-        wing.set(!wing.value());
-    });
-     
-    c.Axis2.changed([ ]{
-        chassis.control_arcade();
-    });
-     
-    c.Axis3.changed([ ]{
-        chassis.control_arcade();
-    });
-
-}
-#endif
-
-
-//================================================================================================================
-//
-//================================================================================================================
-
-
-#ifdef JOSEPH
-void bind_all(controller c){
+void bind_all(){
 
     c.ButtonL1.pressed([ ] {
         
@@ -74,7 +17,7 @@ void bind_all(controller c){
     });
 
     c.ButtonL2.released([ ]{
-        if (!controller1.ButtonL1.pressing()){
+        if (!c.ButtonL1.pressing()){
             intake.spin(vex::fwd, 0, vex::volt);
         }
     });
@@ -88,12 +31,13 @@ void bind_all(controller c){
     });
 
     c.ButtonY.released([ ]{
-        if (!controller1.ButtonR1.pressing()){
+        if (!c.ButtonR1.pressing()){
             hood.spin(vex::fwd, 0, vex::volt);
         }
     });
 
     c.ButtonX.pressed([ ]{
+        printf("cb works\n");
         midGoal.set(!midGoal.value());
     });
     c.ButtonA.pressed([ ]{
@@ -103,16 +47,90 @@ void bind_all(controller c){
         wing.set(!wing.value());
     });
      
-    c.Axis2.changed([ ]{
-        chassis.control_arcade();
+    vex::thread chassis_thread = vex::thread([ ]{
+        while (1){
+            //printf("bound task\n");
+            float throttle = deadband(c.Axis3.value(), 10);
+            float turn = deadband(c.Axis1.value(), 10);
+            printf("L pwr: %.2f, R pwr: %.2f\n", to_volt(throttle + turn), to_volt(throttle - turn));
+            leftDrive.spin(fwd, to_volt(throttle + turn), vex::volt);
+            rightDrive.spin(fwd, to_volt(throttle - turn), vex::volt);
+            //printf("L volt: %.2f, R volt: %.2f", chassis.DriveL.voltage(), chassis.DriveR.voltage());
+            vex::wait(3, msec);
+        }
     });
-     
-    c.Axis3.changed([ ]{
-        chassis.control_arcade();
-    });
+    
     
 }
 #endif
+
+
+//================================================================================================================
+//
+//================================================================================================================
+
+
+#ifdef JOSEPH
+void bind_all(){
+
+    c.ButtonL1.pressed([ ] {
+        
+        intake.spin(vex::fwd, 100/8.3, vex::volt);
+    });
+
+    c.ButtonL2.pressed([ ]{
+        intake.spin(vex::fwd, -100/8.3, vex::volt);
+    });
+
+    c.ButtonL2.released([ ]{
+        if (!c.ButtonL1.pressing()){
+            intake.spin(vex::fwd, 0, vex::volt);
+        }
+    });
+
+    c.ButtonR1.pressed([ ]{
+        hood.spin(vex::fwd, 100/8.3, vex::volt);
+    });
+
+    c.ButtonY.pressed([ ]{
+        hood.spin(vex::fwd, -100/8.3, vex::volt);
+    });
+
+    c.ButtonY.released([ ]{
+        if (!c.ButtonR1.pressing()){
+            hood.spin(vex::fwd, 0, vex::volt);
+        }
+    });
+
+    c.ButtonX.pressed([ ]{
+        printf("cb works\n");
+        midGoal.set(!midGoal.value());
+    });
+    c.ButtonA.pressed([ ]{
+        loader.set(!loader.value());
+    });
+    c.ButtonR2.pressed([ ]{
+        wing.set(!wing.value());
+    });
+     
+    vex::thread chassis_thread = vex::thread([ ]{
+        while (1){
+            //printf("bound task\n");
+            float throttle = deadband(c.Axis3.value(), 10);
+            float turn = deadband(c.Axis1.value(), 10);
+            printf("L pwr: %.2f, R pwr: %.2f\n", to_volt(throttle + turn), to_volt(throttle - turn));
+            leftDrive.spin(fwd, to_volt(throttle + turn), vex::volt);
+            rightDrive.spin(fwd, to_volt(throttle - turn), vex::volt);
+            //printf("L volt: %.2f, R volt: %.2f", chassis.DriveL.voltage(), chassis.DriveR.voltage());
+            vex::wait(3, msec);
+        }
+    });
+    
+    
+}
+#endif
+
+
 
 #undef CHRIS
 #undef JOSEPH

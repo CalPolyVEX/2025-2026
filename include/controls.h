@@ -1,2 +1,5 @@
 #define JOSEPH
-void bind_all(controller c);
+
+extern vex::controller c;
+
+void bind_all();

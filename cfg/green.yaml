@@ -21,35 +21,37 @@ pneumatics:
 motorGroups:
   leftDrive:
     L1:
-      port: 20
+      port: 11
       rev: true
     L2:
-      port: 19
-      rev: true
+      port: 12
+      rev: false
     L3:
-      port: 18
+      port: 13
       rev: true
-    # L4:
-    #   port: 17
-    #   rev: true
+    L4:
+      port: 14
+      rev: true
   rightDrive:
     R1:
-      port: 16
+      port: 20
       rev: false
     R2:
-      port: 15
-      rev: false
+      port: 19
+      rev: true
     R3:
-      port: 14
+      port: 18
       rev: false
-    # R4:
-    #   port: 13
-    #   rev: true
+    R4:
+      port: 17
+      rev: false
+  
   intake:
-    port: 16
+    port: 3
     rev: false
+
   hood:
-    port: 15
+    port: 4
     rev: true
 
 opticals:
