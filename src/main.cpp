@@ -144,7 +144,7 @@ void usercontrol(void) {
     while (1){
         //printf("driving\n");
         
-        vex::wait(3, msec);
+        vex::wait(300, msec); // jsut so this doesnt exit
     }
 }
 
