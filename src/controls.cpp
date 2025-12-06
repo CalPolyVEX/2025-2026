@@ -37,7 +37,7 @@ void bind_all(){
     });
 
     c.ButtonX.pressed([ ]{
-        printf("cb works\n");
+        //printf("cb works\n");
         midGoal.set(!midGoal.value());
     });
     c.ButtonA.pressed([ ]{
@@ -52,7 +52,7 @@ void bind_all(){
             //printf("bound task\n");
             float throttle = deadband(c.Axis3.value(), 10);
             float turn = deadband(c.Axis1.value(), 10);
-            printf("L pwr: %.2f, R pwr: %.2f\n", to_volt(throttle + turn), to_volt(throttle - turn));
+            //printf("L pwr: %.2f, R pwr: %.2f\n", to_volt(throttle + turn), to_volt(throttle - turn));
             leftDrive.spin(fwd, to_volt(throttle + turn), vex::volt);
             rightDrive.spin(fwd, to_volt(throttle - turn), vex::volt);
             //printf("L volt: %.2f, R volt: %.2f", chassis.DriveL.voltage(), chassis.DriveR.voltage());
@@ -103,7 +103,7 @@ void bind_all(){
     });
 
     c.ButtonX.pressed([ ]{
-        printf("cb works\n");
+        //printf("cb works\n");
         midGoal.set(!midGoal.value());
     });
     c.ButtonA.pressed([ ]{
@@ -118,7 +118,7 @@ void bind_all(){
             //printf("bound task\n");
             float throttle = deadband(c.Axis3.value(), 10);
             float turn = deadband(c.Axis1.value(), 10);
-            printf("L pwr: %.2f, R pwr: %.2f\n", to_volt(throttle + turn), to_volt(throttle - turn));
+            //printf("L pwr: %.2f, R pwr: %.2f\n", to_volt(throttle + turn), to_volt(throttle - turn));
             leftDrive.spin(fwd, to_volt(throttle + turn), vex::volt);
             rightDrive.spin(fwd, to_volt(throttle - turn), vex::volt);
             //printf("L volt: %.2f, R volt: %.2f", chassis.DriveL.voltage(), chassis.DriveR.voltage());
@@ -132,5 +132,4 @@ void bind_all(){
 
 
 
-#undef CHRIS
-#undef JOSEPH
+

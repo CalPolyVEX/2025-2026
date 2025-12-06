@@ -3,6 +3,7 @@
 #include "chassis.h"
 #include <vex_task.h>
 #include "controls.h"
+#include "colors.h"
 //using namespace vex;
 competition Competition;
 
@@ -37,52 +38,67 @@ void pre_auton()
 
     while (!auto_started)
     {
-        Brain.Screen.clearScreen();
-        Brain.Screen.printAt(5, 20, "JAR Template v1.2.0");
-        Brain.Screen.printAt(5, 40, "Battery Percentage:");
-        Brain.Screen.printAt(5, 60, "%d", Brain.Battery.capacity());
-        Brain.Screen.printAt(5, 80, "Chassis Heading Reading:");
-        Brain.Screen.printAt(5, 100, "%f", chassis.get_absolute_heading());
-        Brain.Screen.printAt(5, 120, "Selected Auton:");
+        
+        Brain.Screen.setPenColor(white);
+        Brain.Screen.setFillColor(black);
+        //Brain.Screen.printAt(5, 20, "JAR Template v1.2.0");
+        Brain.Screen.printAt(5, 20, "Battery Percentage: %d", Brain.Battery.capacity());
+        //Brain.Screen.printAt(5, 40, "%d", Brain.Battery.capacity());
+        Brain.Screen.printAt(5, 40, "Chassis Heading Reading:");
+        Brain.Screen.printAt(5, 60, "%.2f", chassis.get_absolute_heading());
+        Brain.Screen.printAt(5, 80, "Selected Auton:");
+        //Brain.Screen.printAt(5, 130, "Horizontal: %.2f, Vertical: %.2f", chassis.get_SidewaysTracker_position(), chassis.get_ForwardTracker_position());
+        //Brain.Screen.printAt(5, 150, "x: %.2f, y: %.2f, h: %.2f", chassis.get_X_position(), chassis.get_Y_position(), chassis.get_absolute_heading());
+        
+        
+        
         switch (current_auton_selection)
         {
         case 0:
-            Brain.Screen.printAt(5, 140, "Auton 1");
+            // RED
+            Brain.Screen.printAt(5, 100, "Auton 1");
+            Brain.Screen.setPenColor(red);
+            Brain.Screen.setFillColor(red);
             break;
         case 1:
-            Brain.Screen.printAt(5, 140, "Auton 2");
+            // BLUE
+            Brain.Screen.printAt(5, 100, "Auton 2");
+            Brain.Screen.setPenColor(blue);
+            Brain.Screen.setFillColor(blue);
             break;
         case 2:
-            Brain.Screen.printAt(5, 140, "Auton 3");
+            Brain.Screen.printAt(5, 100, "Auton 3");
             break;
         case 3:
-            Brain.Screen.printAt(5, 140, "Auton 4");
+            Brain.Screen.printAt(5, 100, "Auton 4");
             break;
         case 4:
-            Brain.Screen.printAt(5, 140, "Auton 5");
+            Brain.Screen.printAt(5, 100, "Auton 5");
             break;
         case 5:
-            Brain.Screen.printAt(5, 140, "Auton 6");
+            Brain.Screen.printAt(5, 100, "Auton 6");
             break;
         case 6:
-            Brain.Screen.printAt(5, 140, "Auton 7");
+            Brain.Screen.printAt(5, 100, "Auton 7");
             break;
         case 7:
-            Brain.Screen.printAt(5, 140, "Auton 8");
+            Brain.Screen.printAt(5, 100, "Auton 8");
             break;
         }
         if (Brain.Screen.pressing())
         {
-            while (Brain.Screen.pressing())
-            {
+            while (Brain.Screen.pressing()){
+
             }
             current_auton_selection++;
-        }
-        else if (current_auton_selection == 8)
-        {
+        } else if (current_auton_selection == 8) {
             current_auton_selection = 0;
         }
         
+        Brain.Screen.drawCircle(380, 60, 40);
+
+        wait(200, msec);
+        Brain.Screen.clearScreen();
         
     }
 }
@@ -110,7 +126,7 @@ void autonomous(void)
         turn_test();
         break;
     case 3:
-        swing_test();
+        //swing_test();
         break;
     case 4:
         full_test();
@@ -119,10 +135,10 @@ void autonomous(void)
         odom_test();
         break;
     case 6:
-        tank_odom_test();
+        //tank_odom_test();
         break;
     case 7:
-        holonomic_odom_test();
+        //holonomic_odom_test();
         break;
     }
 }

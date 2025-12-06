@@ -1,5 +1,5 @@
 #include "vex.h"
-
+#include "controls.h"
 /**
  * Resets the constants for auton movement.
  * Modify these to change the default behavior of functions like
@@ -59,14 +59,7 @@ void turn_test(){
   chassis.turn_to_angle(0);
 }
 
-/**
- * Should swing in a fun S shape.
- */
 
-void swing_test(){
-  chassis.left_swing_to_angle(90);
-  chassis.right_swing_to_angle(0);
-}
 
 /**
  * A little of this, a little of that; it should end roughly where it started.
@@ -100,30 +93,21 @@ void odom_test(){
   }
 }
 
-/**
- * Should end in the same place it began, but the second movement
- * will be curved while the first is straight.
- */
+#ifdef CHRIS
+void red_auto(){
 
-void tank_odom_test(){
-  odom_constants();
-  chassis.set_coordinates(0, 0, 0);
-  chassis.turn_to_point(24, 24);
-  chassis.drive_to_point(24,24);
-  chassis.drive_to_point(0,0);
-  chassis.turn_to_angle(0);
+}
+void blue_auto(){
+
+}
+#endif
+
+#ifdef JOSEPH
+void red_auto(){
+
 }
 
-/**
- * Drives in a square while making a full turn in the process. Should
- * end where it started.
- */
-
-void holonomic_odom_test(){
-  odom_constants();
-  chassis.set_coordinates(0, 0, 0);
-  chassis.holonomic_drive_to_pose(0, 18, 90);
-  chassis.holonomic_drive_to_pose(18, 0, 180);
-  chassis.holonomic_drive_to_pose(0, 18, 270);
-  chassis.holonomic_drive_to_pose(0, 0, 0);
+void blue_auto(){
+  
 }
+#endif

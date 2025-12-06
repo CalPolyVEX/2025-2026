@@ -53,6 +53,9 @@ motorGroups:
   lift:
     port: 4
     rev: true
+  hood:
+    port: 5
+    rev: false
 
 opticals:
   frontOpti:
