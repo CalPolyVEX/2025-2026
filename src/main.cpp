@@ -56,18 +56,18 @@ void pre_auton()
         {
         case 0:
             // RED
-            Brain.Screen.printAt(5, 100, "Auton 1");
+            Brain.Screen.printAt(5, 100, "Red Auton");
             Brain.Screen.setPenColor(red);
             Brain.Screen.setFillColor(red);
             break;
         case 1:
             // BLUE
-            Brain.Screen.printAt(5, 100, "Auton 2");
+            Brain.Screen.printAt(5, 100, "Blue Auton");
             Brain.Screen.setPenColor(blue);
             Brain.Screen.setFillColor(blue);
             break;
         case 2:
-            Brain.Screen.printAt(5, 100, "Auton 3");
+            Brain.Screen.printAt(5, 100, "Skills");
             break;
         case 3:
             Brain.Screen.printAt(5, 100, "Auton 4");
@@ -117,13 +117,13 @@ void autonomous(void)
     switch (current_auton_selection)
     {
     case 0:
-        drive_test();
+        red_auto();
         break;
     case 1:
-        drive_test();
+        blue_auto();
         break;
     case 2:
-        turn_test();
+        skills();
         break;
     case 3:
         //swing_test();
