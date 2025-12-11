@@ -143,7 +143,7 @@ void bind_all(){
     });
     c.ButtonR2.released([ ]{
         roller.spin(vex::fwd, 0.0, vex::volt);
-        intake.spin(vex::fwd, 0.0, vex::volt);
+        //intake.spin(vex::fwd, 0.0, vex::volt);
         hood.spin(vex::fwd, 0, vex::volt);
     });
 

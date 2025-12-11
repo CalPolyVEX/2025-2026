@@ -78,17 +78,17 @@ chassis:
   wheel_diameter: 3.75
   encoders:
     sideways:
-      port: 22
+      port: 16
       pin: "a"
       diameter: 2.04
       center_dist: 3.0
     forward:
-      port: 22
-      pin: "c"
+      port: 16
+      pin: "g"
       diameter: 2.04
       center_dist: 3.0
   drivetrain:
     left: "leftDrive"
     right: "rightDrive"
   inertial:
-    port: 21
+    port: 12
