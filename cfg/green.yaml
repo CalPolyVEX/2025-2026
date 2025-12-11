@@ -8,9 +8,7 @@ hex_blue: 0x4EACEC
 hex_red: 0xe63242
 
 pneumatics:
-  midGoal:
-    port: 22
-    pin: "h"
+  
   loader:
     port: 22
     pin: "g"

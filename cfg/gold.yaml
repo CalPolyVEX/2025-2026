@@ -9,84 +9,86 @@ hex_blue: 0x4EACEC
 hex_red: 0xe63242
 
 pneumatics:
-  midGoal:
-    port: 22
-    pin: h
+  
   loader:
     port: 22
-    pin: g 
+    pin: "a"
   wing:
     port: 22
-    pin: f
-
-# encoders: # extra encoders (NOT ODOM)
-#   test:
-#     port: 22
-#     pin: a
+    pin: "f"
 
 motorGroups:
   leftDrive:
     L1:
-      port: 20
-      rev: false
+      port: 2
+      rev: true
     L2:
-      port: 19
+      port: 10
       rev: true
     L3:
-      port: 18
-      rev: false
-    L4:
-      port: 17
+      port: 6
       rev: true
+    L4:
+      port: 8
+      rev: false
   rightDrive:
     R1:
-      port: 16
-      rev: false
-    R2:
-      port: 15
+      port: 4
       rev: true
+    R2:
+      port: 3
+      rev: false
     R3:
-      port: 14
+      port: 5
       rev: false
     R4:
-      port: 13
-      rev: true
+      port: 1
+      rev: false
+  
   intake:
-    port: 3
-    rev: false
-  lift:
-    port: 4
-    rev: true
-  hood:
-    port: 5
+    intake1:
+      port: 20
+      rev: false
+    intake2:
+      port: 11
+      rev: true
+
+  roller:
+    port: 13
     rev: false
 
-# opticals:
-#   frontOpti:
-#     port: 8
+
+opticals:
+  frontOpti:
+    port: 20
 
 # distances:
 #   leftDist:
 #     port: 2
 
+# encoders: # extra encoders (NOT ODOM)
+#   test:
+#     port: 22
+#     pin: "a"
+
 chassis:
-  drive_setup: ZERO_TRACKER_ODOM
+  drive_setup: "ZERO_TRACKER_ODOM"
   gear_input: 1
   gear_output: 4.5
   wheel_diameter: 3.75
   encoders:
     sideways:
       port: 22
-      pin: a
+      pin: "a"
       diameter: 2.04
       center_dist: 3.0
     forward:
       port: 22
-      pin: g
+      pin: "c"
       diameter: 2.04
       center_dist: 3.0
   drivetrain:
-    left: leftDrive
-    right: rightDrive
+    left: "leftDrive"
+    right: "rightDrive"
   inertial:
     port: 21

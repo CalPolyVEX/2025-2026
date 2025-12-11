@@ -174,6 +174,8 @@ int main()
     vex::wait(200, msec); // triports initializing
     vexcodeInit();
 
+    
+
     bind_all();
     
 

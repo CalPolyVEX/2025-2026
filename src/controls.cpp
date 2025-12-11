@@ -7,6 +7,10 @@ vex::controller c(vex::controllerType::primary);
 #ifdef CHRIS
 void bind_all(){
 
+    
+    roller.setMaxTorque(1.0, vex::amp);
+    //hood.setMaxTorque(1.0, vex::amp);
+
     c.ButtonL1.pressed([ ] {
         
         intake.spin(vex::fwd, 100/8.3, vex::volt);
@@ -14,36 +18,60 @@ void bind_all(){
 
     c.ButtonL2.pressed([ ]{
         intake.spin(vex::fwd, -100/8.3, vex::volt);
+        //hood.spin(vex::fwd, -60/8.3, vex::volt);
+        roller.spin(vex::fwd, 20/8.3, vex::volt);
     });
 
     c.ButtonL2.released([ ]{
         if (!c.ButtonL1.pressing()){
             intake.spin(vex::fwd, 0, vex::volt);
+            
         }
+        //hood.spin(vex::fwd, 0.0, vex::volt);
+        roller.spin(vex::fwd, 0.0, vex::volt);
     });
 
     c.ButtonR1.pressed([ ]{
-        lift.spin(vex::fwd, 100/8.3, vex::volt);
+        //hood.spin(vex::fwd, 100/8.3, vex::volt);
+        roller.spin(vex::fwd, -100/8.3, vex::volt);
+
+        intake.spin(vex::fwd, 100/8.3, vex::volt);
+    });
+    c.ButtonR1.released([ ]{
+        //hood.spin(vex::fwd, 0.0, vex::volt);
+        roller.spin(vex::fwd, 0.0, vex::volt);
+        intake.spin(vex::fwd, 0.0, vex::volt);
     });
 
-    c.ButtonY.pressed([ ]{
-        lift.spin(vex::fwd, -100/8.3, vex::volt);
+    c.ButtonR2.pressed([ ]{
+        roller.spin(vex::fwd, 100/8.3, vex::volt);
+        intake.spin(vex::fwd, 100/8.3, vex::volt);
+        //hood.spin(vex::fwd, 100/8.3, vex::volt);
+    });
+    c.ButtonR2.released([ ]{
+        roller.spin(vex::fwd, 0.0, vex::volt);
+        intake.spin(vex::fwd, 0.0, vex::volt);
+        //hood.spin(vex::fwd, 0, vex::volt);
     });
 
-    c.ButtonY.released([ ]{
-        if (!c.ButtonR1.pressing()){
-            lift.spin(vex::fwd, 0, vex::volt);
-        }
-    });
 
-    c.ButtonX.pressed([ ]{
-        //printf("cb works\n");
-        midGoal.set(!midGoal.value());
-    });
-    c.ButtonA.pressed([ ]{
+    // c.ButtonY.pressed([ ]{
+    //     lift.spin(vex::fwd, -100/8.3, vex::volt);
+    // });
+
+    // c.ButtonY.released([ ]{
+    //     if (!c.ButtonR1.pressing()){
+    //         lift.spin(vex::fwd, 0, vex::volt);
+    //     }
+    // });
+
+
+    c.ButtonDown.pressed([ ] {
         loader.set(!loader.value());
     });
-    c.ButtonR2.pressed([ ]{
+
+    
+    c.ButtonB.pressed([ ]{
         wing.set(!wing.value());
     });
      
@@ -73,6 +101,9 @@ void bind_all(){
 #ifdef JOSEPH
 void bind_all(){
 
+    roller.setMaxTorque(1.0, vex::amp);
+    hood.setMaxTorque(1.0, vex::amp);
+
     c.ButtonL1.pressed([ ] {
         
         intake.spin(vex::fwd, 100/8.3, vex::volt);
@@ -80,7 +111,7 @@ void bind_all(){
 
     c.ButtonL2.pressed([ ]{
         intake.spin(vex::fwd, -100/8.3, vex::volt);
-        hood.spin(vex::fwd, -60/8.3, vex::volt);
+        //hood.spin(vex::fwd, -60/8.3, vex::volt);
         roller.spin(vex::fwd, 20/8.3, vex::volt);
     });
 
@@ -102,6 +133,7 @@ void bind_all(){
     c.ButtonR1.released([ ]{
         hood.spin(vex::fwd, 0.0, vex::volt);
         roller.spin(vex::fwd, 0.0, vex::volt);
+        //intake.spin(vex::fwd, 0.0, vex::volt);
     });
 
     c.ButtonR2.pressed([ ]{
@@ -111,7 +143,8 @@ void bind_all(){
     });
     c.ButtonR2.released([ ]{
         roller.spin(vex::fwd, 0.0, vex::volt);
-        //hood.spin(vex::fwd, 0, vex::volt);
+        intake.spin(vex::fwd, 0.0, vex::volt);
+        hood.spin(vex::fwd, 0, vex::volt);
     });
 
 
@@ -125,14 +158,13 @@ void bind_all(){
     //     }
     // });
 
-    c.ButtonX.pressed([ ]{
-        //printf("cb works\n");
-        midGoal.set(!midGoal.value());
-    });
-    c.ButtonA.pressed([ ]{
+
+    c.ButtonDown.pressed([ ] {
         loader.set(!loader.value());
     });
-    c.ButtonR2.pressed([ ]{
+
+    
+    c.ButtonB.pressed([ ]{
         wing.set(!wing.value());
     });
      
