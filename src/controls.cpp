@@ -80,27 +80,50 @@ void bind_all(){
 
     c.ButtonL2.pressed([ ]{
         intake.spin(vex::fwd, -100/8.3, vex::volt);
+        hood.spin(vex::fwd, -60/8.3, vex::volt);
+        roller.spin(vex::fwd, 20/8.3, vex::volt);
     });
 
     c.ButtonL2.released([ ]{
         if (!c.ButtonL1.pressing()){
             intake.spin(vex::fwd, 0, vex::volt);
+            
         }
+        hood.spin(vex::fwd, 0.0, vex::volt);
+        roller.spin(vex::fwd, 0.0, vex::volt);
     });
 
     c.ButtonR1.pressed([ ]{
-        lift.spin(vex::fwd, 100/8.3, vex::volt);
+        hood.spin(vex::fwd, 100/8.3, vex::volt);
+        roller.spin(vex::fwd, -100/8.3, vex::volt);
+
+        intake.spin(vex::fwd, 100/8.3, vex::volt);
+    });
+    c.ButtonR1.released([ ]{
+        hood.spin(vex::fwd, 0.0, vex::volt);
+        roller.spin(vex::fwd, 0.0, vex::volt);
     });
 
-    c.ButtonY.pressed([ ]{
-        lift.spin(vex::fwd, -100/8.3, vex::volt);
+    c.ButtonR2.pressed([ ]{
+        roller.spin(vex::fwd, 100/8.3, vex::volt);
+        intake.spin(vex::fwd, 100/8.3, vex::volt);
+        //hood.spin(vex::fwd, 100/8.3, vex::volt);
+    });
+    c.ButtonR2.released([ ]{
+        roller.spin(vex::fwd, 0.0, vex::volt);
+        //hood.spin(vex::fwd, 0, vex::volt);
     });
 
-    c.ButtonY.released([ ]{
-        if (!c.ButtonR1.pressing()){
-            lift.spin(vex::fwd, 0, vex::volt);
-        }
-    });
+
+    // c.ButtonY.pressed([ ]{
+    //     lift.spin(vex::fwd, -100/8.3, vex::volt);
+    // });
+
+    // c.ButtonY.released([ ]{
+    //     if (!c.ButtonR1.pressing()){
+    //         lift.spin(vex::fwd, 0, vex::volt);
+    //     }
+    // });
 
     c.ButtonX.pressed([ ]{
         //printf("cb works\n");

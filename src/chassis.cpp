@@ -72,7 +72,7 @@ Drive chassis(
     // If you are using position tracking, this is the Forward Tracker port (the tracker which runs parallel to the direction of the chassis).
     // If this is a rotation sensor, enter it in "PORT1" format, inputting the port below.
     // If this is an encoder, enter the port as an integer. Triport A will be a "1", Triport B will be a "2", etc.
-    7, 
+    3, 
 
     // Input the Forward Tracker diameter (reverse it to make the direction switch):
     2.04,
