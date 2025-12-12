@@ -23,6 +23,7 @@ competition Competition;
 int current_auton_selection = 0;
 bool auto_started = false;
 
+
 /**
  * Function before autonomous. It prints the current auton number on the screen
  * and tapping the screen cycles the selected auton by 1. Add anything else you
@@ -153,30 +154,99 @@ void autonomous(void)
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
 
+
+void color_sort(vex::color reject, bool reject_high){
+    if (!sort.isNearObject()) return;
+    double hue = sort.hue();
+    vex::color seen;
+    if (hue < 240 && hue > 220){ // blue
+        seen = vex::color::blue;
+    } 
+    if (hue > 0 && hue < 25){
+        seen = vex::color::red;
+    }
+    if (seen == reject){
+        if (reject_high){
+            roller.spin(vex::fwd, -100/8.3, vex::volt);
+            #ifdef JOSEPH
+                hood.spin(vex::fwd, -100/8.3, vex::volt);
+            #endif
+            wait(200, msec);
+        } else {
+            roller.spin(vex::fwd, 100/8.3, vex::volt);
+        }
+        wait(200, msec);
+
+        if (reject_high){
+            roller.spin(vex::fwd, 100/8.3, vex::volt);
+        } else {
+            roller.spin(vex::fwd, -100/8.3, vex::volt);
+        }
+        
+        #ifdef JOSEPH
+            if (reject_high){
+                hood.spin(vex::fwd, 0.0, vex::volt);
+            } else {
+                hood.spin(vex::fwd, 100.0/8.3, vex::volt);
+            }
+            
+        #endif
+    }
+}
+
+
 void usercontrol(void) {
   // User control code here, inside the loop
     
 
     while (1){
-        //printf("driving\n");
         
-        vex::wait(300, msec); // jsut so this doesnt exit
+        
+        //printf("driving\n");
+        Brain.Screen.printAt(20, 10, "(%.2f, %.2f)", chassis.get_X_position(), chassis.get_Y_position());
+        Brain.Screen.printAt(20, 30, "Heading: %.2f", chassis.get_absolute_heading());
+
+        
+        vex::wait(30, msec); // jsut so this doesnt exit
     }
 }
+
+
 
 //
 // Main will set up the competition functions and callbacks.
 //
 int main()
 {
-    
+    alliance = vex::red;
     
     vex::wait(200, msec); // triports initializing
     vexcodeInit();
 
-    
+    sort.setLightPower(100);
+    sort.setLight(vex::ledState::on);
+    sort.integrationTime(5.0);
 
     bind_all();
+    chassis.Gyro.calibrate();
+    while(chassis.Gyro.isCalibrating());
+    c.rumble("--");
+    chassis.set_coordinates(0.0, 0.0, 0.0);
+
+    
+    if (alliance == vex::red){
+        opponent = vex::blue;
+    } else {
+        opponent = vex::red;
+    }
+
+    vex::thread([ ] {
+        while (1) {
+            color_sort(opponent, !scoring_high);
+            //printf("you suck\n");
+            wait(20, msec);
+        }
+    });
     
 
     // Set up callbacks for autonomous and driver control periods.
@@ -184,13 +254,17 @@ int main()
     Competition.drivercontrol(usercontrol);
 
     // Run the pre-autonomous function.
-    pre_auton();
-
+    //pre_auton();
+    
     
     // Prevent main from exiting with an infinite loop.
     while (true)
     {
-        printf("in main\n");
+        //printf("in main\n");
         vex::wait(100, msec);
     }
 }
+
+
+
+

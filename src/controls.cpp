@@ -2,6 +2,11 @@
 #include "controls.h"
 #include "devices.h"
 
+bool scoring_high = false;
+vex::color alliance = vex::red;
+vex::color opponent = vex::blue; //auto-configured by main
+
+
 vex::controller c(vex::controllerType::primary);
 
 #ifdef CHRIS
@@ -125,6 +130,8 @@ void bind_all(){
     });
 
     c.ButtonR1.pressed([ ]{
+        scoring_high = true;
+        
         hood.spin(vex::fwd, 100/8.3, vex::volt);
         roller.spin(vex::fwd, -100/8.3, vex::volt);
 
@@ -137,6 +144,7 @@ void bind_all(){
     });
 
     c.ButtonR2.pressed([ ]{
+        scoring_high = false;
         roller.spin(vex::fwd, 100/8.3, vex::volt);
         intake.spin(vex::fwd, 100/8.3, vex::volt);
         //hood.spin(vex::fwd, 100/8.3, vex::volt);

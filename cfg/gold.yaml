@@ -59,8 +59,8 @@ motorGroups:
 
 
 opticals:
-  frontOpti:
-    port: 20
+  sort:
+    port: 18
 
 # distances:
 #   leftDist:
@@ -80,13 +80,13 @@ chassis:
     sideways:
       port: 16
       pin: "a"
-      diameter: 2.04
-      center_dist: 3.0
+      diameter: 2.0035019544578963
+      center_dist: 0.0
     forward:
       port: 16
       pin: "g"
-      diameter: 2.04
-      center_dist: 3.0
+      diameter: 2.01430280888232
+      center_dist: 0.0
   drivetrain:
     left: "leftDrive"
     right: "rightDrive"

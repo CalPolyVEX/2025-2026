@@ -60,8 +60,8 @@ motorGroups:
     rev: true
 
 opticals:
-  frontOpti:
-    port: 20
+  sort:
+    port: 18
 
 # distances:
 #   leftDist:
@@ -73,23 +73,24 @@ opticals:
 #     pin: "a"
 
 chassis:
-  drive_setup: "ZERO_TRACKER_ODOM"
+  drive_setup: "TANK_TWO_QUADRATURE"
   gear_input: 1
   gear_output: 4.5
   wheel_diameter: 3.75
   encoders:
     sideways:
-      port: 22
+      port: 16
       pin: "a"
-      diameter: 2.04
-      center_dist: 3.0
+      diameter: 2.0035019544578963
+      center_dist: 0.0
     forward:
-      port: 22
-      pin: "c"
-      diameter: 2.04
-      center_dist: 3.0
+      port: 16
+      pin: "g"
+      diameter: 2.01430280888232
+      center_dist: 0.0
   drivetrain:
     left: "leftDrive"
     right: "rightDrive"
   inertial:
-    port: 21
+    port: 19
+

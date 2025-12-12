@@ -10,7 +10,12 @@ from translate_cfg import get_wiremap_string
 from chassis_generate import get_JAR_Template_chassis_string
 
 
-color = get_color() or open("tools/__TARGET.txt", "r").read()
+color = get_color()
+if color: 
+    open("tools/__TARGET.txt", "w+").write(f"{color}")
+else: 
+    color = open("tools/__TARGET.txt", "r").read()
+
 
 p = Path(f"cfg/{color}.yaml")
 # Reading a TOML file

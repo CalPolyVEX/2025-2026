@@ -26,7 +26,7 @@ Drive chassis(
     // HOLONOMIC_TWO_QUADRATURE
     // TANK_TWO_QUADRATURE
     // Write it here:
-    ZERO_TRACKER_ODOM,
+    TANK_TWO_QUADRATURE,
 
     // Add the names of your Drive motors into the motor groups below, separated by commas, i.e. motor_group(Motor1,Motor2,Motor3).
     // You will input whatever motor names you chose when you configured your robot using the sidebar configurer, they don't have to be "Motor1" and "Motor2".
@@ -38,7 +38,7 @@ Drive chassis(
     rightDrive,
 
     // Specify the PORT NUMBER of your inertial sensor, in PORT format (i.e. "PORT1", not simply "1"):
-    PORT12, 
+    PORT19, 
 
     // Input your wheel diameter. (4" omnis are actually closer to 4.125"):
     3.75,
@@ -75,20 +75,20 @@ Drive chassis(
     7, 
 
     // Input the Forward Tracker diameter (reverse it to make the direction switch):
-    2.04,
+    2.01430280888232,
 
     // Input Forward Tracker center distance (a positive distance corresponds to a tracker on the right side of the robot, negative is left.)
     // For a zero tracker tank drive with odom, put the positive distance from the center of the robot to the right side of the drive.
     // This distance is in inches:
-    3.0,
+    0.0,
 
     // Input the Sideways Tracker Port, following the same steps as the Forward Tracker Port:
     1,
 
     // Sideways tracker diameter (reverse to make the direction switch):
-    2.04,
+    2.0035019544578963,
 
     // Sideways tracker center distance (positive distance is behind the center of the robot, negative is in front):
-    3.0
+    0.0
 
 );
