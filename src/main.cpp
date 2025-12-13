@@ -232,6 +232,7 @@ int main()
     while(chassis.Gyro.isCalibrating());
     c.rumble("--");
     chassis.set_coordinates(0.0, 0.0, 0.0);
+    default_constants();
 
     
     if (alliance == vex::red){
@@ -239,7 +240,6 @@ int main()
     } else {
         opponent = vex::red;
     }
-
     vex::thread([ ] {
         while (1) {
             color_sort(opponent, !scoring_high);

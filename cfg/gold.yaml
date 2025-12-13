@@ -72,7 +72,7 @@ opticals:
 #     pin: "a"
 
 chassis:
-  drive_setup: "ZERO_TRACKER_ODOM"
+  drive_setup: "TANK_TWO_QUADRATURE"
   gear_input: 1
   gear_output: 4.5
   wheel_diameter: 3.75
