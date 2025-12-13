@@ -81,12 +81,12 @@ chassis:
     sideways:
       port: 16
       pin: "a"
-      diameter: 2.0035019544578963
+      diameter: 2.0
       center_dist: 0.0
     forward:
       port: 16
       pin: "g"
-      diameter: 2.01430280888232
+      diameter: 2.0
       center_dist: 0.0
   drivetrain:
     left: "leftDrive"
