@@ -20,47 +20,47 @@ pneumatics:
 motorGroups:
   leftDrive:
     L1:
-      port: 2
+      port: 1
       rev: true
     L2:
-      port: 10
+      port: 2
       rev: true
     L3:
-      port: 6
-      rev: true
-    L4:
-      port: 8
-      rev: false
-  rightDrive:
-    R1:
-      port: 4
-      rev: true
-    R2:
       port: 3
       rev: false
-    R3:
-      port: 5
+    L4:
+      port: 4
+      rev: true
+  rightDrive:
+    R1:
+      port: 6
       rev: false
+    R2:
+      port: 7
+      rev: false
+    R3:
+      port: 8
+      rev: true
     R4:
-      port: 1
+      port: 9
       rev: false
   
   intake:
     intake1:
-      port: 20
-      rev: false
+      port: 19
+      rev: true
     intake2:
       port: 11
-      rev: true
+      rev: false
 
   roller:
-    port: 13
+    port: 5
     rev: false
 
 
 opticals:
   sort:
-    port: 18
+    port: 16
 
 # distances:
 #   leftDist:
@@ -78,17 +78,17 @@ chassis:
   wheel_diameter: 3.75
   encoders:
     sideways:
-      port: 16
+      port: 10
       pin: "a"
       diameter: 2.0035019544578963
       center_dist: 0.0
     forward:
-      port: 16
+      port: 10
       pin: "g"
       diameter: 2.01430280888232
       center_dist: 0.0
   drivetrain:
-    left: "leftDrive"
-    right: "rightDrive"
+    left: leftDrive
+    right: rightDrive
   inertial:
-    port: 12
+    port: 20

@@ -1,4 +1,4 @@
-#define JOSEPH
+#define CHRIS
 
 
 extern bool scoring_high;

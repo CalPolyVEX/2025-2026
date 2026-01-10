@@ -18,3 +18,6 @@ void odom_test();
 void red_auto();
 void blue_auto();
 void skills();
+
+
+void autonomous1();

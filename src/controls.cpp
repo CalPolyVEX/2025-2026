@@ -82,12 +82,16 @@ void bind_all(){
      
     vex::thread chassis_thread = vex::thread([ ]{
         while (1){
+
             //printf("bound task\n");
+            
             float throttle = deadband(c.Axis3.value(), 10);
-            float turn = deadband(c.Axis1.value(), 10);
+            float turn = deadband(c.Axis4.value(), 10);
+            
+            
             //printf("L pwr: %.2f, R pwr: %.2f\n", to_volt(throttle + turn), to_volt(throttle - turn));
-            leftDrive.spin(fwd, to_volt(throttle + turn), vex::volt);
-            rightDrive.spin(fwd, to_volt(throttle - turn), vex::volt);
+            leftDrive.spin(fwd, (throttle + turn) * 12.0 / 127.0, vex::volt);
+            rightDrive.spin(fwd, (throttle - turn) * 12.0 / 127.0, vex::volt);
             //printf("L volt: %.2f, R volt: %.2f", chassis.DriveL.voltage(), chassis.DriveR.voltage());
             vex::wait(3, msec);
         }

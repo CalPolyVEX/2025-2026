@@ -27,7 +27,7 @@ private:
   float SidewaysTracker_center_distance;
   float SidewaysTracker_diameter;
   float SidewaysTracker_in_to_deg_ratio;
-  vex:: triport ThreeWire = vex::triport(vex::PORT16);
+  vex:: triport ThreeWire = vex::triport(vex::PORT10);
 
 public: 
   drive_setup drive_setup = ZERO_TRACKER_NO_ODOM;

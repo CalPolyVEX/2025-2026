@@ -105,6 +105,81 @@ void blue_auto(){
 void skills(){
 
 }
+
+
+void autonomous1()
+{
+    // double startTime = brain.timer(vex::msec);
+    //intakeReverse();
+    vex::thread([](){
+        vex::wait(300, msec);
+        //intakeStop();
+    });
+    chassis.drive_max_voltage = 4.8;
+    chassis.drive_to_point(-47.25, -48);
+    chassis.drive_max_voltage = 6;
+    //toggleMatchloader();
+    chassis.turn_to_angle(180);
+    //intakeForward();
+    chassis.drive_timeout = 1500;
+    chassis.drive_max_voltage = 3;
+    chassis.drive_distance(9);
+    chassis.drive_distance(-1);
+    chassis.drive_stop(vex::hold);
+    //sleep(800);
+    chassis.drive_max_voltage = 4.5;
+    vex::thread([](){
+        //sleep(100);
+        //intakeReverse();
+        //sleep(400);
+        //intakeForward();
+    });
+    chassis.drive_distance(-15);
+    vex::thread([](){
+        //sleep(400);
+        //scoreHigh();
+    });
+    //scoreHigh();
+    //sleep(1800);
+    //intakeStop();
+    //intakeForward();
+    chassis.drive_timeout = 3000;
+    chassis.drive_max_voltage = 3;
+    chassis.drive_distance(15);
+    chassis.drive_distance(-1);
+    chassis.drive_stop(vex::hold);
+    //sleep(2000);
+    chassis.drive_max_voltage = 6;
+    chassis.drive_to_point(-48, -48);
+    //toggleMatchloader();
+    chassis.turn_to_point(-9, -9, 180);
+    chassis.drive_to_point(-8.7, -8.7);
+    // intakeReverse();
+    //scoreHigh();
+    //sleep(300);
+    //scoreMiddle();
+    //sleep(3000); // 2800
+    //intakeStop();
+
+    //toggleOdomRetraction();
+
+    /*
+    chassis.swing_timeout = 750;
+    chassis.right_swing_to_angle(135);
+    chassis.drive_to_point(1.1, -36); // 0.85
+    chassis.turn_to_angle(180);
+    toggleOdomRetraction();
+    chassis.drive_with_voltage(5, 5);
+    sleep(5000);
+    */
+
+    chassis.drive_stop(vex::coast);
+    
+    // double endTime = brain.timer(vex::msec);
+    // printf("Autonomous completed in: %.2f seconds\n", (endTime - startTime) / 1000);
+}
+
+
 #endif
 
 #ifdef JOSEPH
@@ -118,5 +193,48 @@ void blue_auto(){
 
 void skills(){
 
+}
+
+
+
+
+void autonomous1()
+{
+    // double startTime = brain.timer(vex::msec);
+    chassis.drive_distance(13.8);
+    toggleMatchloader();
+    chassis.turn_to_angle(180);
+    intakeForward();
+    chassis.drive_timeout = 2000;
+    chassis.drive_distance(6);
+    sleep(300);
+    vex::thread([](){
+        sleep(100);
+        intakeReverse();
+        sleep(800);
+        intakeForward();
+    });
+    chassis.drive_distance(-13);
+    vex::thread([](){
+        sleep(800);
+        scoreHigh();
+    });
+    scoreHigh();
+    sleep(2000);
+    chassis.drive_distance(13);
+    intakeForward();
+    sleep(1200);
+    chassis.drive_distance(-5.2);
+    chassis.turn_to_angle(-46);
+    toggleMatchloader();
+    chassis.drive_timeout = 3200;
+    chassis.drive_distance(20.5);
+    chassis.drive_distance(-1);
+    intake.spin(vex::reverse, 9.5, vex::volt);
+    intakeTop.spin(vex::reverse, 2, vex::volt);
+    highGoalScore.spin(vex::reverse, 12, vex::volt);
+    // double endTime = brain.timer(vex::msec);
+    // printf("Autonomous completed in: %.2f seconds\n", (endTime - startTime) / 1000);
+    chassis.drive_stop(vex::coast);
 }
 #endif

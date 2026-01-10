@@ -17,5 +17,4 @@ extern vex::motor intake1;
 extern vex::motor intake2;
 extern vex::motor_group intake;
 extern vex::motor roller;
-extern vex::motor hood;
 extern vex::optical sort;

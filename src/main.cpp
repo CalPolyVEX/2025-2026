@@ -1,11 +1,15 @@
 #include "vex.h"
 #include "devices.h"
 #include "chassis.h"
-#include <vex_task.h>
+//#include <vex_task.h>
 #include "controls.h"
 #include "colors.h"
+#include "autons.h"
+
 //using namespace vex;
-competition Competition;
+vex::competition Competition;
+
+#define sleep(ms) vex::wait(ms, vex::msec)
 
 /*---------------------------------------------------------------------------*/
 /*                             VEXcode Config                                */
@@ -24,85 +28,45 @@ int current_auton_selection = 0;
 bool auto_started = false;
 
 
+
+
 /**
- * Function before autonomous. It prints the current auton number on the screen
- * and tapping the screen cycles the selected auton by 1. Add anything else you
- * may need, like resetting pneumatic components. You can rename these autons to
- * be more descriptive, if you like.
+ * Function before autonomous. Initializes the imu and prints coords.
  */
-
-void pre_auton()
+void preautonomous()
 {
-    // Initializing Robot Configuration. DO NOT REMOVE!
-
+    vex::inertial imu = chassis.Gyro;
+    imu.calibrate();
+    waitUntil(!imu.isCalibrating());
     default_constants();
-
-    while (!auto_started)
-    {
-        
-        Brain.Screen.setPenColor(white);
-        Brain.Screen.setFillColor(black);
-        //Brain.Screen.printAt(5, 20, "JAR Template v1.2.0");
-        Brain.Screen.printAt(5, 20, "Battery Percentage: %d", Brain.Battery.capacity());
-        //Brain.Screen.printAt(5, 40, "%d", Brain.Battery.capacity());
-        Brain.Screen.printAt(5, 40, "Chassis Heading Reading:");
-        Brain.Screen.printAt(5, 60, "%.2f", chassis.get_absolute_heading());
-        Brain.Screen.printAt(5, 80, "Selected Auton:");
-        //Brain.Screen.printAt(5, 130, "Horizontal: %.2f, Vertical: %.2f", chassis.get_SidewaysTracker_position(), chassis.get_ForwardTracker_position());
-        //Brain.Screen.printAt(5, 150, "x: %.2f, y: %.2f, h: %.2f", chassis.get_X_position(), chassis.get_Y_position(), chassis.get_absolute_heading());
-        
-        
-        
-        switch (current_auton_selection)
+    chassis.set_coordinates(-24, -48, -90);
+    c.rumble("--");
+    
+    vex::thread t ([]() {
+        while (1)
         {
-        case 0:
-            // RED
-            Brain.Screen.printAt(5, 100, "Red Auton");
-            Brain.Screen.setPenColor(red);
-            Brain.Screen.setFillColor(red);
-            break;
-        case 1:
-            // BLUE
-            Brain.Screen.printAt(5, 100, "Blue Auton");
-            Brain.Screen.setPenColor(blue);
-            Brain.Screen.setFillColor(blue);
-            break;
-        case 2:
-            Brain.Screen.printAt(5, 100, "Skills");
-            break;
-        case 3:
-            Brain.Screen.printAt(5, 100, "Auton 4");
-            break;
-        case 4:
-            Brain.Screen.printAt(5, 100, "Auton 5");
-            break;
-        case 5:
-            Brain.Screen.printAt(5, 100, "Auton 6");
-            break;
-        case 6:
-            Brain.Screen.printAt(5, 100, "Auton 7");
-            break;
-        case 7:
-            Brain.Screen.printAt(5, 100, "Auton 8");
-            break;
+            Brain.Screen.clearLine(5);
+            Brain.Screen.clearLine(12);
+            Brain.Screen.setCursor(5, 1);
+            Brain.Screen.print("(%.4f, %.4f)", chassis.get_X_position(), chassis.get_Y_position());
+            Brain.Screen.setCursor(6, 1);
+            Brain.Screen.print("%.2f", chassis.get_absolute_heading());
+            sleep(200);
         }
-        if (Brain.Screen.pressing())
-        {
-            while (Brain.Screen.pressing()){
-
-            }
-            current_auton_selection++;
-        } else if (current_auton_selection == 8) {
-            current_auton_selection = 0;
-        }
-        
-        Brain.Screen.drawCircle(380, 60, 40);
-
-        wait(200, msec);
-        Brain.Screen.clearScreen();
-        
-    }
+    });
 }
+
+
+bool ranPreAuto = false;
+
+void selectAuto()
+{
+    if (ranPreAuto) return;
+    ranPreAuto = true;
+    preautonomous();
+    Competition.autonomous(autonomous1);
+}
+
 
 /**
  * Auton function, which runs the selected auton. Case 0 is the default,
@@ -197,18 +161,9 @@ void color_sort(vex::color reject, bool reject_high){
 
 void usercontrol(void) {
   // User control code here, inside the loop
+    leftDrive.setStopping(vex::coast);
+    rightDrive.setStopping(vex::coast);
     
-
-    while (1){
-        
-        
-        //printf("driving\n");
-        Brain.Screen.printAt(20, 10, "(%.2f, %.2f)", chassis.get_X_position(), chassis.get_Y_position());
-        Brain.Screen.printAt(20, 30, "Heading: %.2f", chassis.get_absolute_heading());
-
-        
-        vex::wait(30, msec); // jsut so this doesnt exit
-    }
 }
 
 
@@ -250,7 +205,7 @@ int main()
     
 
     // Set up callbacks for autonomous and driver control periods.
-    Competition.autonomous(autonomous);
+    
     Competition.drivercontrol(usercontrol);
 
     // Run the pre-autonomous function.
