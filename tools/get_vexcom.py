@@ -4,7 +4,6 @@ import glob
 from pathlib import Path
 import subprocess
 import json
-import re
 
 # Find the latest VEX Code extension directory dynamically
 home_dir = str(Path.cwd())
@@ -46,8 +45,8 @@ def get_vexcom_path():
     return vexcom_path
 
 def _windows_probe_ports(vexcom_executable: str):
-    # Probe COM1..COM40 (adjust if needed)
-    for n in range(5, 8):
+    # Probe COM1..COM10 (adjust if needed)
+    for n in range(5, 10):
         port = f"COM{n}"
         result = subprocess.run(
             [vexcom_executable, "--json", port],
@@ -73,10 +72,10 @@ def get_color():
     if platform.system() == "Windows":
         json_output, port = _windows_probe_ports(vexcom_executable)
         if json_output:
-            # optional: print(f"Detected brain on {port}")
+            print(f"Detected brain on {port}")
             return json_output.get("v5", {}).get("brain", {}).get("name")
 
-        print("\n!!! vexcom couldn't find a brain on any COM port (COM1-40) !!!\n")
+        print("\n!!! vexcom couldn't find a brain on any COM port (COM5-10) !!!\n")
         return None
 
     # non-Windows: keep your original behavior
