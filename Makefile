@@ -54,11 +54,7 @@ all: prebuild $(BUILD)/$(PROJECT).bin
 .PHONY: prebuild
 prebuild: setup
 	@echo $(SCRIPT)
-ifeq ($(OS),Windows_NT)
-	@$(PYTHON) -m $(UV) run "$(SCRIPT)"
-else
 	@$(UV) run "$(SCRIPT)"
-endif
 
 # Setup virtual environment and dependencies (idempotent)
 .PHONY: setup
