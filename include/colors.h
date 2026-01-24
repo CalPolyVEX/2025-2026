@@ -1,6 +1,0 @@
-#define PRIMARY_COLOR 0xc69214
-#define SECONDARY_COLOR 0x2a2b2c
-#define TERTIARY_COLOR 0x154734
-#define BLUE_COLOR 0x4eacec
-#define RED_COLOR 0xe63242
-#define BRAIN_NAME "gold"
