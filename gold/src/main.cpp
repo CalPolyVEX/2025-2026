@@ -9,24 +9,24 @@ vex::brain brain;
 vex::controller controller;
 vex::competition competition;
 
-vex::motor l1 (vex::PORT2, true);
-vex::motor l2 (vex::PORT10, true);
-vex::motor l3 (vex::PORT6, true);
-vex::motor l4 (vex::PORT8);
+vex::motor l1 (vex::PORT1, true);
+vex::motor l2 (vex::PORT2, true);
+vex::motor l3 (vex::PORT3);
+vex::motor l4 (vex::PORT4, true);
 vex::motor_group leftDriveMotors (l1, l2, l3, l4);
 
-vex::motor r1 (vex::PORT1);
-vex::motor r2 (vex::PORT3);
-vex::motor r3 (vex::PORT5);
-vex::motor r4 (vex::PORT4, true);
+vex::motor r1 (vex::PORT6);
+vex::motor r2 (vex::PORT7);
+vex::motor r3 (vex::PORT8, true);
+vex::motor r4 (vex::PORT9);
 vex::motor_group rightDriveMotors (r1, r2, r3, r4);
 
 
-vex::motor intake1 (vex::PORT20);
-vex::motor intake2 (vex::PORT11, true);
-vex::motor intakeTop (vex::PORT13, true);
+vex::motor intake1 (vex::PORT11);
+vex::motor intake2 (vex::PORT19, true);
+vex::motor intakeTop (vex::PORT5, true);
 vex::motor_group intake (intake1, intake2);
-vex::motor highGoalScore (vex::PORT15);
+// vex::motor highGoalScore (vex::PORT15);
 
 vex::pneumatics p1 (brain.ThreeWirePort.A);
 vex::pneumatics p2 (brain.ThreeWirePort.B);
@@ -38,13 +38,16 @@ vex::pneumatics p7 (brain.ThreeWirePort.G);
 vex::pneumatics p8 (brain.ThreeWirePort.H);
 vex::pneumatics pneus[8] = {p1, p2, p3, p4, p5, p6, p7, p8};
 
-vex::inertial imu (vex::PORT12);
+vex::inertial imu (vex::PORT20);
 
 bool flipThrottle = false;
 double flipTime = brain.timer(vex::msec);
 
+vex::distance rightDistance (vex::PORT17); // 5.2 inch offset (now 478mm)
+vex::distance frontDistance (vex::PORT18); // 5.6 (now 475mm)
+
 Drive chassis(
-TANK_TWO_ENCODER,
+ZERO_TRACKER_ODOM,
 
 //Add the names of your Drive motors into the motor groups below, separated by commas, i.e. motor_group(Motor1,Motor2,Motor3).
 //You will input whatever motor names you chose when you configured your robot using the sidebar configurer, they don't have to be "Motor1" and "Motor2".
@@ -56,8 +59,8 @@ leftDriveMotors,
 rightDriveMotors,
 
 //Specify the PORT NUMBER of your inertial sensor, in PORT format (i.e. "PORT1", not simply "1"):
-vex::PORT12,
-2.75,
+imu.index(),
+8.271246, // 2.75
 0.75,
 360,
 
@@ -74,7 +77,7 @@ vex::PORT22,     vex::PORT22,
 7,
 
 //Input the Forward Tracker diameter (reverse it to make the direction switch):
-2.0143,
+2.0307, // 2.0214
 
 //Input Forward Tracker center distance (a positive distance corresponds to a tracker on the right side of the robot, negative is left.)
 //For a zero tracker tank drive with odom, put the positive distance from the center of the robot to the right side of the drive.
@@ -85,13 +88,17 @@ vex::PORT22,     vex::PORT22,
 1,
 
 //Sideways tracker diameter (reverse to make the direction switch):
-2.0035,
+2.0142, // 2.0035 previously
 
 //Sideways tracker center distance (positive distance is behind the center of the robot, negative is in front):
 0
 
 );
 
+enum Axis {
+    X = 0,
+    Y
+};
 
 bool cancel1 = false;
 bool cancel2 = false;
@@ -119,7 +126,7 @@ void intakeForward()
     cancel1 = true;
     cancel2 = true;
     intakeTop.stop();
-    highGoalScore.stop();
+    // highGoalScore.stop();
     intake.spin(vex::forward, 12, vex::volt);
 }
 
@@ -127,14 +134,14 @@ void intakeReverse()
 {
     intake.spin(vex::reverse, 12, vex::volt);
     intakeTop.spin(vex::reverse, 2, vex::volt);
-    highGoalScore.spin(vex::reverse, 12, vex::volt);
+    // highGoalScore.spin(vex::reverse, 12, vex::volt);
 }
 
 void intakeStop()
 {
     intake.stop();
     intakeTop.stop();
-    highGoalScore.stop();
+    // highGoalScore.stop();
 }
 
 void scoreHigh()
@@ -146,16 +153,16 @@ void scoreHigh()
     if (cancel2) return;
     intake.spin(vex::forward, 12, vex::volt);
     intakeTop.spin(vex::forward, 12, vex::volt);
-    highGoalScore.spin(vex::forward, 12, vex::volt);
+    // highGoalScore.spin(vex::forward, 12, vex::volt);
 }
 
 void scoreMiddle()
 {
     cancel1 = false;
     intake.spin(vex::reverse, 12, vex::volt);
-    highGoalScore.spin(vex::reverse, 12, vex::volt);
+    // highGoalScore.spin(vex::reverse, 12, vex::volt);
     vex::wait(300, vex::msec);
-    highGoalScore.stop();
+    // highGoalScore.stop();
     if (cancel1) return;
     intake.spin(vex::forward, 12, vex::volt);
     intakeTop.spin(vex::reverse, 7, vex::volt);
@@ -182,7 +189,7 @@ void preautonomous()
     waitUntil(!imu.isCalibrating());
     default_constants();
     chassis.set_coordinates(-24, -48, -90);
-    controller.rumble("--");
+    controller.rumble("-.");
     
     vex::thread t ([]() {
         while (1)
@@ -198,76 +205,83 @@ void preautonomous()
     });
 }
 
+// void distanceResetQuadrant3(vex::distance distanceSensor, Axis axis, double offset) {
+//     double dist = rightDistance.objectDistance(vex::inches);
+//     double x = chassis.get_X_position();
+//     double y = chassis.get_Y_position();
+//     double h = chassis.get_absolute_heading();
+//     chassis.odom_task.stop();
+
+//     if (axis == X) chassis.set_coordinates(-72 + dist + 5.4, y, h);
+//     else chassis.set_coordinates(x, -72 + dist + offset, h);
+// }
+
+void distanceResetQuadrant3(vex::distance distanceSensor, Axis axis) {
+    double x = chassis.get_X_position();
+    double y = chassis.get_Y_position();
+    double h = chassis.get_absolute_heading();
+    double distRight = rightDistance.objectDistance(vex::inches);
+    double distFront = frontDistance.objectDistance(vex::inches);
+    chassis.odom_task.stop();
+
+    if (axis == X) chassis.set_coordinates(-72 + distRight + 5.6, y, h);
+    if (axis == Y) chassis.set_coordinates(x, -72 + distFront + 5.2, h);
+}
+
 void autonomous1()
 {
-    // double startTime = brain.timer(vex::msec);
+    double startTime = brain.timer(vex::msec);
     intakeReverse();
     vex::thread([](){
-        sleep(300);
+        sleep(100);
         intakeStop();
     });
-    chassis.drive_max_voltage = 4.8;
-    chassis.drive_to_point(-47.25, -48);
-    chassis.drive_max_voltage = 6;
-    toggleMatchloader();
-    chassis.turn_to_angle(180);
-    intakeForward();
-    chassis.drive_timeout = 1500;
-    chassis.drive_max_voltage = 3;
-    chassis.drive_distance(9);
-    chassis.drive_distance(-1);
-    chassis.drive_stop(vex::hold);
-    sleep(800);
-    chassis.drive_max_voltage = 4.5;
-    vex::thread([](){
-        sleep(100);
-        intakeReverse();
-        sleep(400);
-        intakeForward();
-    });
-    chassis.drive_distance(-15);
-    vex::thread([](){
-        sleep(400);
-        scoreHigh();
-    });
-    scoreHigh();
-    sleep(1800);
-    intakeStop();
-    intakeForward();
-    chassis.drive_timeout = 3000;
-    chassis.drive_max_voltage = 3;
-    chassis.drive_distance(15);
-    chassis.drive_distance(-1);
-    chassis.drive_stop(vex::hold);
-    sleep(2000);
-    chassis.drive_max_voltage = 6;
+    chassis.drive_max_voltage = 7;
     chassis.drive_to_point(-48, -48);
     toggleMatchloader();
-    chassis.turn_to_point(-9, -9, 180);
-    chassis.drive_to_point(-8.7, -8.7);
-    // intakeReverse();
-    scoreHigh();
-    sleep(300);
-    scoreMiddle();
-    sleep(3000); // 2800
-    intakeStop();
-
-    toggleOdomRetraction();
-
-    /*
-    chassis.swing_timeout = 750;
-    chassis.right_swing_to_angle(135);
-    chassis.drive_to_point(1.1, -36); // 0.85
     chassis.turn_to_angle(180);
-    toggleOdomRetraction();
-    chassis.drive_with_voltage(5, 5);
-    sleep(5000);
-    */
-
+    chassis.drive_max_voltage = 4.75;
+    distanceResetQuadrant3(rightDistance, X);
+    distanceResetQuadrant3(frontDistance, Y);  
+    chassis.turn_to_point(-48, -72);
+    intakeForward();
+    chassis.drive_timeout = 950;
+    chassis.drive_to_point(-48, -72);
+    chassis.boomerang_lead = 0.85;
+    chassis.drive_timeout = 1250;
+    chassis.drive_to_pose(-48, -24, 180);
+    scoreHigh();
+    chassis.turn_to_angle(180);
+    distanceResetQuadrant3(rightDistance, X);
+    distanceResetQuadrant3(frontDistance, Y); 
+    sleep(1250);
+    chassis.drive_timeout = 1500;
+    chassis.drive_to_point(-48, -72);
+    intakeForward();
+    // scoreHigh();
+    sleep(2000); 
+    // intakeStop();
+    // intakeForward();
+    sleep(1500);
+    chassis.drive_stop(vex::hold);
+    distanceResetQuadrant3(rightDistance, X);
+    distanceResetQuadrant3(frontDistance, Y);
+    chassis.drive_to_point(-48, -48);
+    chassis.turn_to_angle(225);
+    chassis.drive_max_voltage = 5;
+    chassis.drive_timeout = 3000;
+    chassis.drive_distance(-57.5, -135);
+    scoreMiddle();
+    sleep(2000);
+    toggleMatchloader();
+    chassis.drive_distance(43.125, -135);
+    chassis.turn_to_angle(0);
+    toggleHook();
+    chassis.drive_distance(32);
+    sleep(75);
+    chassis.drive_stop(vex::hold);
+    sleep(50);
     chassis.drive_stop(vex::coast);
-    
-    // double endTime = brain.timer(vex::msec);
-    // printf("Autonomous completed in: %.2f seconds\n", (endTime - startTime) / 1000);
 }
 
 // typedef void *callback(void);
@@ -301,6 +315,7 @@ void checkFlip()
 
 int main()
 {
+    vex::wait(200, vex::msec);
     competition.drivercontrol(driverControl);
     controller.Axis1.changed(updateDrivetrainVelocity);
     controller.Axis3.changed(updateDrivetrainVelocity);
@@ -308,20 +323,16 @@ int main()
     controller.ButtonL2.pressed(intakeReverse);
     controller.ButtonL2.released(intakeStop);
     controller.ButtonR1.pressed(scoreHigh);
-    controller.ButtonB.pressed(scoreMiddle);
+    controller.ButtonR2.pressed(scoreMiddle);
     controller.ButtonR1.released(intakeStop);
-    controller.ButtonB.released(intakeStop); 
+    controller.ButtonR2.released(intakeStop); 
     controller.ButtonX.pressed(toggleOdomRetraction);
     controller.ButtonDown.pressed(toggleMatchloader);
-    controller.ButtonR2.pressed([](){
+    controller.ButtonB.pressed([](){
         p3.set(!p3.value());
     });
-    // controller.ButtonR2.released([](){
-    //     p3.set(false);
-    // });
     controller.ButtonA.pressed(selectAuto);
-    controller.ButtonY.pressed(checkFlip);
-    controller.ButtonUp.pressed(checkFlip);
-    vex::wait(50, vex::msec);
+    // controller.ButtonY.pressed(checkFlip);
+    // controller.ButtonUp.pressed(checkFlip);
 }
 

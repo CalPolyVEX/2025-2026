@@ -4,12 +4,12 @@
 		"json": 2
 	},
 	"project": {
-		"name": "MT-SAC",
+		"name": "SLO-GOLD",
 		"description": "",
 		"creationDate": "12/12/2025, 10:35:34 AM",
 		"platform": "V5",
 		"language": "cpp",
-		"slot": 1,
+		"slot": 2,
 		"sdkVersion": "V5_20240802_15_00_00",
 		"cpp": {
 			"includePath": [],
